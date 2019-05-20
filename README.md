@@ -20,32 +20,40 @@
 
 3. License.
 
- Up is free softare. You can redistribute it and/or modify it under the
+ Up is free software. You can redistribute it and/or modify it under the
  terms of the GNU General Public License Version 2.0. as published by
  the Free Software Foundation. A copy of the GNU GPL 2.0 is provided with the
  software.
 
 4. Contents of Help Page:
 
+ Up -- Debian/Ubuntu Update Tool (Version 1.2)  -help
+
  Up is a tool that automates the update procedure for Debian and Ubuntu based
  Linux systems.
 
+ Press "q" to exit this Help page.
+
  Commands:
     up = full system update.
-
+    
     Running "up" with no options will update the apt cache and then perform a
     full distribution update automatically.
 
-    up --clean = full system update with cleanup.
+    up --remove = full system update with orphaned packages removed.
+    up --clean = full system update with full cleanup.
 
     Adding the "--clean" option will invoke the apt commands to search for and
     remove locally cached packages that are no longer in the repositories and
-    remove orphaned packages that are no longer needed by programs.
+    remove orphaned packages that are no longer needed by programs. 
+
+    The "--remove" option only removes orphaned packages, leaving the apt cache
+    alone. 
 
     up --help = shows this help page.
 
  By Joe Collins www.ezeelinux.com (GNU/General Public License version 2.0)
-
+ 
  Disclaimer:
 
  THIS SOFTWARE IS PROVIDED BY EZEELINUX “AS IS” AND ANY EXPRESS OR IMPLIED
@@ -58,4 +66,6 @@
  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
+
+_EOF_
 
