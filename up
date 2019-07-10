@@ -22,10 +22,36 @@ export REPDIR="$HOME/Documents/repos"
 
 new() {
 
-sudo apt install libglibmm-2.4-1v5 apt-transport-https software-properties-common wget ntp synaptic nfs-kernel-server emacs octave libjack-jackd2-dev portaudio19-dev build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev
-
 #kxstudio packages
-wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_9.5.1~kxstudio3_all.deb
+(
+cd $REPDIR
+if [ ! -e "kxstudio-repos_9.5.1~kxstudio3_all.deb" ]; then
+    wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_9.5.1~kxstudio3_all.deb
+fi
+
+if [ ! -e "kxstudio-repos-gcc5_9.5.1~kxstudio3_all.deb" ]; then
+    wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos-gcc5_9.5.1~kxstudio3_all.deb
+fi
+
+sudo dpkg -i kxstudio-repos_9.5.1~kxstudio3_all.deb
+sudo dpkg -i kxstudio-repos-gcc5_9.5.1~kxstudio3_all.deb
+)
+
+sudo apt purge hydrogen
+
+update
+remove
+clean	
+
+sudo apt install \
+#System
+libglibmm-2.4-1v5 apt-transport-https software-properties-common wget ntp synaptic nfs-kernel-server emacs octave \
+#Dev
+build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui \
+#Qt
+qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev \
+#Audio
+libjack-jackd2-dev portaudio19-dev \
 
 
 }
@@ -122,9 +148,6 @@ if [ "$1" == "--install" ]; then
     if [ ! -d "$HOME/bin" ]; then
         mkdir $HOME/bin
         echo "up will be installed on next log in, run it with --install again to update when the script itself can be updated" 
-        update
-        remove
-        clean
     fi
   
     cp $REPDIR/scrimpt/up $HOME/bin
