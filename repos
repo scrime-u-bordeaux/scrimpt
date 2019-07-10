@@ -98,6 +98,10 @@ fi
 
 cd supercollider
 
+cmake $SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release 
+make -j$JOBS
+sudo make install
+
 )
  
 }
@@ -114,6 +118,11 @@ fi
 
 if [ "$1" == "--score" ]; then
     score
+    exit
+fi
+
+if [ "$1" == "--supercollider" ]; then
+    supercollider
     exit
 fi
 

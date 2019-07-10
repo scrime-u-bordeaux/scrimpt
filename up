@@ -22,7 +22,11 @@ export REPDIR="$HOME/Documents/repos"
 
 new() {
 
-sudo apt install wget ntp synaptic nfs-kernel-server libjack-jackd2-dev portaudio19-dev build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev
+sudo apt install libglibmm-2.4-1v5 apt-transport-https software-properties-common wget ntp synaptic nfs-kernel-server emacs octave libjack-jackd2-dev portaudio19-dev build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev
+
+#kxstudio packages
+wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_9.5.1~kxstudio3_all.deb
+
 
 }
 
