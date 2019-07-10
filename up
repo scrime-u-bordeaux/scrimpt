@@ -24,6 +24,8 @@ new() {
 
 #kxstudio packages
 (
+sudo apt install wget apt-transport-https software-properties-common
+
 cd $REPDIR
 if [ ! -e "kxstudio-repos_9.5.1~kxstudio3_all.deb" ]; then
     wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_9.5.1~kxstudio3_all.deb
@@ -37,23 +39,15 @@ sudo dpkg -i kxstudio-repos_9.5.1~kxstudio3_all.deb
 sudo dpkg -i kxstudio-repos-gcc5_9.5.1~kxstudio3_all.deb
 )
 
+#Remove potential conflicts with kxstudio  
 sudo apt purge hydrogen
 
 update
 remove
 clean	
 
-sudo apt install \
-#System
-libglibmm-2.4-1v5 apt-transport-https software-properties-common wget ntp synaptic nfs-kernel-server emacs octave \
-#Dev
-build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui \
-#Qt
-qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev \
-#Audio
-libjack-jackd2-dev portaudio19-dev \
-
-
+sudo apt -y install kxstudio-default-settings kxstudio-meta-all libjack-jackd2-dev portaudio19-dev libglibmm-2.4-1v5 ntp synaptic nfs-kernel-server emacs octave build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev
+ 
 }
 
 update() {
