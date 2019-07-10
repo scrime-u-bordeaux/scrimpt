@@ -1,0 +1,120 @@
+#!/bin/bash
+
+export SRC_DIR="$HOME/Documents/repos"
+export BUILD_DIR="$HOME/Documents/build"
+export JOBS=1
+
+
+if [ ! -d "$BUILD_DIR" ]; then
+    mkdir $BUILD_DIR
+fi
+
+cd $SRC_DIR
+
+
+faust() {
+
+sudo apt -y install libmicrohttpd-dev
+
+if [ ! -d "faust" ]; then
+    git clone --recursive https://github.com/grame-cncm/faust.git 
+fi
+
+(
+cd faust/build
+echo '
+set ( ASMJS_BACKEND  OFF CACHE STRING  "Include ASMJS backend" FORCE )
+set ( C_BACKEND      COMPILER STATIC DYNAMIC        CACHE STRING  "Include C backend"         FORCE )
+set ( CPP_BACKEND    COMPILER STATIC DYNAMIC        CACHE STRING  "Include CPP backend"       FORCE )
+set ( FIR_BACKEND    OFF        CACHE STRING  "Include FIR backend"       FORCE )
+set ( INTERP_BACKEND OFF        CACHE STRING  "Include INTERPRETER backend" FORCE )
+set ( JAVA_BACKEND   OFF        CACHE STRING  "Include JAVA backend"      FORCE )
+set ( JS_BACKEND     OFF        CACHE STRING  "Include JAVASCRIPT backend" FORCE )
+set ( LLVM_BACKEND   COMPILER STATIC DYNAMIC        CACHE STRING  "Include LLVM backend"      FORCE )
+set ( OLDCPP_BACKEND OFF        CACHE STRING  "Include old CPP backend"   FORCE )
+set ( RUST_BACKEND   OFF        CACHE STRING  "Include RUST backend"      FORCE )
+set ( WASM_BACKEND   OFF   CACHE STRING  "Include WASM backend"  FORCE )
+' > backends/llvm.cmake
+)
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "faust" ]; then
+   mkdir faust
+fi
+
+cd faust
+
+cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
+make -j$JOBS
+sudo make install
+
+)
+
+}
+
+score() {
+
+sudo apt -y install qtbase5-dev qtbase5-dev-tools libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev liblilv-dev libsuil-dev lilv-utils qtquickcontrols2-5-dev libqt5serialport5-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev  libqt5serialport5-dev libz-dev 
+
+if [ ! -d "supercollider" ]; then
+    git clone --recursive https://github.com/OSSIA/score.git 
+fi
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "score" ]; then
+   mkdir score
+fi
+
+cd score
+
+cmake $SRC_DIR/score -DSCORE_CONFIGURATION=static-release -DPORTAUDIO_ONLY_DYNAMIC=1
+make all_unity -j$JOBS
+rm -rf *.deb
+cpack
+sudo dpkg -i *.deb
+
+)
+ 
+}
+
+supercollider() {
+
+sudo apt -y install libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
+
+if [ ! -d "supercollider" ]; then
+    git clone --recursive https://github.com/supercollider/supercollider.git
+fi
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "supercollider" ]; then
+   mkdir supercollider
+fi
+
+cd supercollider
+
+)
+ 
+}
+
+
+if [ -z "$2" ]; then 
+    JOBS=$2
+fi
+
+if [ "$1" == "--faust" ]; then
+    faust
+    exit
+fi
+
+if [ "$1" == "--score" ]; then
+    score
+    exit
+fi
+
+exit

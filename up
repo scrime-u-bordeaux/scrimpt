@@ -16,7 +16,15 @@ dpkg -l | grep -qw less || sudo apt install less -yyq
 
 set -e
 
+export REPDIR="$HOME/Documents/repos"
+
 # Functions:
+
+new() {
+
+sudo apt install wget ntp synaptic nfs-kernel-server libjack-jackd2-dev portaudio19-dev build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev
+
+}
 
 update() {
 
@@ -103,6 +111,24 @@ _EOF_
 
 echo "Up -- Debian/Ubuntu Update Tool (Version 1.2)"
 
+# Setup for fist time use:
+
+if [ "$1" == "--install" ]; then
+  
+    if [ ! -d "$HOME/bin" ]; then
+        mkdir $HOME/bin
+        echo "up will be installed on next log in, run it with --install again to update when the script itself can be updated" 
+        update
+        remove
+        clean
+    fi
+  
+    cp $REPDIR/scrimpt/up $HOME/bin
+    cp $REPDIR/scrimpt/repos $HOME/bin
+    new	
+    leave
+fi
+
 # Update and clean:
 
 if [ "$1" == "--clean" ]; then
@@ -123,6 +149,14 @@ fi
 if [ "$1" == "--help" ]; then
     up_help
     exit
+fi
+
+# Call the "repos" script 
+
+if [ "$1" == "--repos" ]; then
+    update
+    repos "$2"
+    leave
 fi
 
 # Check for invalid argument
