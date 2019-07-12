@@ -49,7 +49,6 @@ cd faust
 cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
 make -j$JOBS
 sudo make install
-
 )
 
 }
@@ -76,7 +75,6 @@ make all_unity -j$JOBS
 rm -rf *.deb
 cpack
 sudo dpkg -i *.deb
-
 )
  
 }
@@ -101,9 +99,33 @@ cd supercollider
 cmake $SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release 
 make -j$JOBS
 sudo make install
+)
+
+sc3-plugins
+
+}
+ 
+sc3-plugins() {
+
+if [ ! -d "sc3-pluginsHOA" ]; then
+    git clone --recursive https://github.com/scrime-u-bordeaux/sc3-pluginsHOA.git
+fi
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "sc3-pluginsHOA" ]; then
+   mkdir sc3-pluginsHOA
+fi
+
+cd sc3-pluginsHOA
+
+cmake $SRC_DIR/sc3-pluginsHOA -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release 
+make -j$JOBS
+sudo make install
 
 )
- 
+
 }
 
 
@@ -123,6 +145,11 @@ fi
 
 if [ "$1" == "--supercollider" ]; then
     supercollider
+    exit
+fi
+
+if [ "$1" == "--sc3-plugins" ]; then
+    sc3-plugins
     exit
 fi
 
