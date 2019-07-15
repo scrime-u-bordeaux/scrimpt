@@ -55,7 +55,7 @@ sudo make install
 
 score() {
 
-sudo apt -y install qtbase5-dev qtbase5-dev-tools libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev liblilv-dev libsuil-dev lilv-utils qtquickcontrols2-5-dev libqt5serialport5-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev  libqt5serialport5-dev libz-dev 
+sudo apt -y install qtbase5-dev qtbase5-dev-tools libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils qtquickcontrols2-5-dev libqt5serialport5-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libqt5serialport5-dev libz-dev 
 
 if [ ! -d "supercollider" ]; then
     git clone --recursive https://github.com/OSSIA/score.git 
@@ -81,7 +81,7 @@ sudo dpkg -i *.deb
 
 supercollider() {
 
-sudo apt -y install libsndfile1-dev libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev libfftw3-dev libxt-dev libudev-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
+sudo apt -y install libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev  libxt-dev libudev-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
 
 if [ ! -d "supercollider" ]; then
     git clone --recursive https://github.com/supercollider/supercollider.git
@@ -123,8 +123,29 @@ cd sc3-pluginsHOA
 cmake $SRC_DIR/sc3-pluginsHOA -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release 
 make -j$JOBS
 sudo make install
-
 )
+
+}
+
+ardour() {
+
+sudo apt install libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
+
+if [ ! -d "ardour" ]; then
+    git clone --recursive https://github.com/Ardour/ardour.git
+fi
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "ardour" ]; then
+   mkdir ardour
+fi
+)
+
+cd ardour
+
+./waf configure --top= --out=$BUILD_DIR/ardour --freedesktop --lxvst --lv2 --no-phone-home --optimize --with-backend=alsa,jack,dummy 
 
 }
 
@@ -150,6 +171,18 @@ fi
 
 if [ "$1" == "--sc3-plugins" ]; then
     sc3-plugins
+    exit
+fi
+
+if [ "$1" == "--ardour" ]; then
+    ardour
+    exit
+fi
+
+if [ "$1" == "--all" ]; then
+    faust
+    score
+    supercollider
     exit
 fi
 
