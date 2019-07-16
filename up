@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # Up -- Debian/Ubuntu Update Tool (Version 1.2)
@@ -39,11 +40,14 @@ sudo dpkg -i kxstudio-repos_9.5.1~kxstudio3_all.deb
 sudo dpkg -i kxstudio-repos-gcc5_9.5.1~kxstudio3_all.deb
 )
 
+#Remove kxstudio conflicts
+sudo apt purge hydrogen
+
 update
 remove
 clean	
 
-sudo apt -y install kxstudio-meta-graphics kxstudio-meta-video kxstudio-meta-audio-plugins kxstudio-meta-audio-plugins-collection kxstudio-meta-audio-plugins-lv2 kxstudio-meta-audio-plugins-ladspa kxstudio-meta-audio-plugins-vst kxstudio-lv2-extensions soundconverter libjack-jackd2-dev portaudio19-dev libglibmm-2.4-1v5 gparted ntp synaptic nfs-kernel-server emacs octave build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev liblilv-dev libsndfile1-dev libfftw3-dev libusb-1.0.0-dev libsuil-dev
+sudo apt -y install kxstudio-meta-graphics kxstudio-meta-video kxstudio-meta-audio-plugins kxstudio-meta-audio-plugins-collection kxstudio-meta-audio-plugins-lv2 kxstudio-meta-audio-plugins-ladspa kxstudio-meta-audio-plugins-vst kxstudio-lv2-extensions soundconverter libjack-jackd2-dev portaudio19-dev libglibmm-2.4-1v5 gparted ntp synaptic nfs-kernel-server emacs octave build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev liblilv-dev libsndfile1-dev libfftw3-dev libusb-1.0.0-dev libudev-dev libsuil-dev
  
 }
 
