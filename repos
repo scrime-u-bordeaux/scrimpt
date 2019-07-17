@@ -4,13 +4,11 @@ export SRC_DIR="$HOME/Documents/repos"
 export BUILD_DIR="$HOME/Documents/build"
 export JOBS=1
 
+cd $SRC_DIR
 
 if [ ! -d "$BUILD_DIR" ]; then
     mkdir $BUILD_DIR
 fi
-
-cd $SRC_DIR
-
 
 faust() {
 
@@ -129,28 +127,23 @@ sudo make install
 
 ardour() {
 
+sudo apt purge ardour
 sudo apt install libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
 
 if [ ! -d "ardour" ]; then
-    git clone --recursive https://github.com/Ardour/ardour.git
+    git clone --recursive https://github.com/ardour/ardour.git
 fi
-
-(
-cd $BUILD_DIR
-
-if [ ! -d "ardour" ]; then
-   mkdir ardour
-fi
-)
 
 cd ardour
 
-./waf configure --top= --out=$BUILD_DIR/ardour --freedesktop --lxvst --lv2 --no-phone-home --optimize --with-backend=alsa,jack,dummy 
+./waf configure --freedesktop --lxvst --lv2 --ptformat --nls --optimize --with-backend=alsa,jack,dummy 
+sudo ./waf uninstall
+./waf build -j$JOBS
+sudo ./waf install
 
 }
 
-
-if [ -z "$2" ]; then 
+if [ ! -z "$2" ]; then 
     JOBS=$2
 fi
 
@@ -183,6 +176,7 @@ if [ "$1" == "--all" ]; then
     faust
     score
     supercollider
+    ardour
     exit
 fi
 
