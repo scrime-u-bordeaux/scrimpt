@@ -44,7 +44,7 @@ fi
 
 cd faust
 
-cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
+cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
 make -j$JOBS
 sudo make install
 )
@@ -127,8 +127,8 @@ sudo make install
 
 ardour() {
 
-sudo apt purge ardour
-sudo apt install libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
+sudo apt -y purge ardour
+sudo apt -y install libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
 
 if [ ! -d "ardour" ]; then
     git clone --recursive https://github.com/ardour/ardour.git
@@ -136,8 +136,10 @@ fi
 
 cd ardour
 
-./waf configure --freedesktop --lxvst --lv2 --ptformat --nls --optimize --with-backend=alsa,jack,dummy 
+git checkout tags/5.12
+
 sudo ./waf uninstall
+./waf configure --freedesktop --lxvst --lv2 --ptformat --nls --optimize --with-backend=alsa,jack,dummy 
 ./waf build -j$JOBS
 sudo ./waf install
 
@@ -181,3 +183,4 @@ if [ "$1" == "--all" ]; then
 fi
 
 exit
+
