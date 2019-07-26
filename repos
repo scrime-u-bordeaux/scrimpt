@@ -15,7 +15,7 @@ faust() {
 sudo apt -y install libmicrohttpd-dev
 
 if [ ! -d "faust" ]; then
-    git clone --recursive https://github.com/grame-cncm/faust.git 
+    git clone --recursive https://github.com/grame-cncm/faust.git -b master 
 fi
 
 (
