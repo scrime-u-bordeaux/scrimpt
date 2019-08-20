@@ -12,8 +12,6 @@ fi
 
 faust() {
 
-sudo apt -y install libmicrohttpd-dev
-
 if [ ! -d "faust" ]; then
     git clone --recursive https://github.com/grame-cncm/faust.git -b master 
 fi
@@ -53,7 +51,7 @@ sudo make install
 
 score() {
 
-sudo apt -y install qtbase5-dev qtbase5-dev-tools libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils qtquickcontrols2-5-dev libqt5serialport5-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libqt5serialport5-dev libz-dev 
+sudo apt -y install qtbase5-dev qtbase5-dev-tools libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils qtquickcontrols2-5-dev libqt5serialport5-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libqt5serialport5-dev 
 
 if [ ! -d "supercollider" ]; then
     git clone --recursive https://github.com/OSSIA/score.git 
@@ -77,9 +75,55 @@ sudo dpkg -i *.deb
  
 }
 
+guido() {
+
+if [ ! -d guidolib ]; then
+    git clone https://github.com/grame-cncm/guidolib.git 
+fi
+
+cd guidolib
+git checkout dev
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "guidolib" ]; then
+   mkdir guidolib
+fi
+
+cd guidolib
+
+cmake $SRC_DIR/guidolib/build 
+make -j$JOBS
+sudo make install
+)
+
+if [ ! -d guidoar ]; then
+   git clone https://github.com/grame-cncm/guidoar.git
+fi
+
+cd guidoar
+git checkout dev
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "guidoar" ]; then
+   mkdir guidoar
+fi
+
+cd guidoar
+
+cmake $SRC_DIR/guidoar/build 
+make -j$JOBS
+sudo make install
+)
+
+}
+
 supercollider() {
 
-sudo apt -y install libasound2-dev libavahi-client-dev libicu-dev libreadline6-dev  libxt-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
+sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
 
 if [ ! -d "supercollider" ]; then
     git clone --recursive https://github.com/supercollider/supercollider.git
@@ -145,6 +189,46 @@ sudo ./waf install
 
 }
 
+zyn() {
+
+sudo apt -y install ruby libtool libmxml-dev automake libz-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libfontconfig1-dev bison
+
+if [ ! -d "zyn-fusion-build" ]; then
+    git clone --recursive https://github.com/zynaddsubfx/zyn-fusion-build.git
+fi
+
+cd zyn-fusion-build
+
+ruby build-linux.rb
+tar -jxvf zyn-fusion-linux-64bit-3.0.3-patch1-release.tar.bz2
+cd zyn-fusion
+sudo bash ./install-linux.sh
+
+}
+
+osc() {
+
+sudo apt install -y nodejs
+sudo apt install -y npm
+
+if [ ! -d "open-stage-control" ]; then
+    git clone https://github.com/jean-emmanuel/open-stage-control.git
+fi
+
+cd open-stage-control
+
+sudo npm install
+
+export PLATFORM=linux
+sudo npm run build
+npm run package
+
+rm -rf dist/open-stage-control-linux-x64/*.deb
+npm run deb64
+sudo dpkg -i dist/open-stage-control-linux-x64/*.deb
+
+}
+
 if [ ! -z "$2" ]; then 
     JOBS=$2
 fi
@@ -156,6 +240,11 @@ fi
 
 if [ "$1" == "--score" ]; then
     score
+    exit
+fi
+
+if [ "$1" == "--guido" ]; then
+    guido
     exit
 fi
 
@@ -174,11 +263,23 @@ if [ "$1" == "--ardour" ]; then
     exit
 fi
 
+if [ "$1" == "--zyn" ]; then
+    zyn
+    exit
+fi
+
+if [ "$1" == "--osc" ]; then
+    osc
+    exit
+fi
+
 if [ "$1" == "--all" ]; then
     faust
     score
     supercollider
     ardour
+    zyn
+    osc
     exit
 fi
 
