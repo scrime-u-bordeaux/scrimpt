@@ -75,69 +75,6 @@ sudo dpkg -i *.deb
  
 }
 
-guido() {
-
-if [ ! -d guidolib ]; then
-    git clone https://github.com/grame-cncm/guidolib.git 
-fi
-
-(
-cd guidolib
-git checkout dev
-
-cd $BUILD_DIR
-
-if [ ! -d "guidolib" ]; then
-   mkdir guidolib
-fi
-
-cd guidolib
-
-cmake $SRC_DIR/guidolib/build 
-make -j$JOBS
-sudo make install
-)
-
-if [ ! -d guidoar ]; then
-   git clone https://github.com/grame-cncm/guidoar.git
-fi
-
-(
-cd guidoar
-git checkout dev
-
-cd $BUILD_DIR
-
-if [ ! -d "guidoar" ]; then
-   mkdir guidoar
-fi
-
-cd guidoar
-
-cmake $SRC_DIR/guidoar/build 
-make -j$JOBS
-sudo make install
-)
-
-}
-
-inscore() {
-
-sudo apt -y install qtmultimedia5-dev libqt5multimedia5-plugins
-
-if [ ! -d "inscore" ]; then
-    git clone --recursive https://github.com/grame-cncm/inscore.git
-fi
-
-cd inscore
-git checkout dev
-cd build 
-make -j$JOBS
-mv bin/inscoreviewer /usr/bin
-mv bin/lib* /usr/lib
-
-}
-
 supercollider() {
 
 sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
@@ -223,10 +160,72 @@ sudo bash ./install-linux.sh
 
 }
 
+guido() {
+
+if [ ! -d guidolib ]; then
+    git clone https://github.com/grame-cncm/guidolib.git 
+fi
+
+(
+cd guidolib
+git checkout dev
+
+cd $BUILD_DIR
+
+if [ ! -d "guidolib" ]; then
+   mkdir guidolib
+fi
+
+cd guidolib
+
+cmake $SRC_DIR/guidolib/build 
+make -j$JOBS
+sudo make install
+)
+
+if [ ! -d guidoar ]; then
+   git clone https://github.com/grame-cncm/guidoar.git
+fi
+
+(
+cd guidoar
+git checkout dev
+
+cd $BUILD_DIR
+
+if [ ! -d "guidoar" ]; then
+   mkdir guidoar
+fi
+
+cd guidoar
+
+cmake $SRC_DIR/guidoar/build 
+make -j$JOBS
+sudo make install
+)
+
+}
+
+inscore() {
+
+sudo apt -y install qtmultimedia5-dev libqt5multimedia5-plugins
+
+if [ ! -d "inscore" ]; then
+    git clone --recursive https://github.com/grame-cncm/inscore.git
+fi
+
+cd inscore
+git checkout dev
+cd build 
+make -j$JOBS
+mv bin/inscoreviewer /usr/bin
+mv bin/lib* /usr/lib
+
+}
+
 osc() {
 
-sudo apt install -y nodejs
-sudo apt install -y npm
+sudo apt -y install nodejs npm chromium-browser
 
 if [ ! -d "open-stage-control" ]; then
     git clone https://github.com/jean-emmanuel/open-stage-control.git
@@ -260,16 +259,6 @@ if [ "$1" == "--score" ]; then
     exit
 fi
 
-if [ "$1" == "--guido" ]; then
-    guido
-    exit
-fi
-
-if [ "$1" == "--inscore" ]; then
-    inscore
-    exit
-fi
-
 if [ "$1" == "--supercollider" ]; then
     supercollider
     exit
@@ -290,6 +279,16 @@ if [ "$1" == "--zyn" ]; then
     exit
 fi
 
+if [ "$1" == "--guido" ]; then
+    guido
+    exit
+fi
+
+if [ "$1" == "--inscore" ]; then
+    inscore
+    exit
+fi
+
 if [ "$1" == "--osc" ]; then
     osc
     exit
@@ -298,11 +297,11 @@ fi
 if [ "$1" == "--all" ]; then
     faust
     score
-    guido
-    inscore
     supercollider
     ardour
     zyn
+    guido
+    inscore
     osc
     exit
 fi
