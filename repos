@@ -81,10 +81,10 @@ if [ ! -d guidolib ]; then
     git clone https://github.com/grame-cncm/guidolib.git 
 fi
 
+(
 cd guidolib
 git checkout dev
 
-(
 cd $BUILD_DIR
 
 if [ ! -d "guidolib" ]; then
@@ -102,10 +102,10 @@ if [ ! -d guidoar ]; then
    git clone https://github.com/grame-cncm/guidoar.git
 fi
 
+(
 cd guidoar
 git checkout dev
 
-(
 cd $BUILD_DIR
 
 if [ ! -d "guidoar" ]; then
@@ -118,6 +118,23 @@ cmake $SRC_DIR/guidoar/build
 make -j$JOBS
 sudo make install
 )
+
+}
+
+inscore() {
+
+sudo apt -y install qtmultimedia5-dev libqt5multimedia5-plugins
+
+if [ ! -d "inscore" ]; then
+    git clone --recursive https://github.com/grame-cncm/inscore.git
+fi
+
+cd inscore
+git checkout dev
+cd build 
+make -j$JOBS
+mv bin/inscoreviewer /usr/bin
+mv bin/lib* /usr/lib
 
 }
 
@@ -248,6 +265,11 @@ if [ "$1" == "--guido" ]; then
     exit
 fi
 
+if [ "$1" == "--inscore" ]; then
+    inscore
+    exit
+fi
+
 if [ "$1" == "--supercollider" ]; then
     supercollider
     exit
@@ -276,6 +298,8 @@ fi
 if [ "$1" == "--all" ]; then
     faust
     score
+    guido
+    inscore
     supercollider
     ardour
     zyn
