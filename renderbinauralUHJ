@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # run this in a directory with B-format files with .wav suffix
 # Writes files at 48kHz
 
