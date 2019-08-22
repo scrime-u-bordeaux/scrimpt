@@ -1,0 +1,30 @@
+#!/bin/bash
+
+
+
+normalize-audio -a  -5dBFS *.wav
+[ -d mp3_320 ] || mkdir mp3_320
+
+for file in *.wav 
+do 
+   lame -b 320 "$file" 
+
+for i in *.mp3 ; do
+mv "$i" ./'mp3_320'
+cd ./'mp3_320'
+rename 's/.wav//' *.mp3
+cd ..
+done
+
+#   mv ${file%.wave}.mp3 ./mp3/. 
+done
+
+
+
+
+
+
+
+
+
+

@@ -145,7 +145,7 @@ sudo ./waf install
 
 zyn() {
 
-sudo apt -y install ruby libtool libmxml-dev automake libz-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libfontconfig1-dev bison
+sudo apt -y install ruby libtool libmxml-dev automake libz-dev mesa-common-dev libgl1-mesa-dev libfontconfig1-dev bison
 
 if [ ! -d "zyn-fusion-build" ]; then
     git clone --recursive https://github.com/zynaddsubfx/zyn-fusion-build.git
@@ -245,6 +245,25 @@ sudo dpkg -i dist/open-stage-control-linux-x64/*.deb
 
 }
 
+rack() {
+
+sudo apt -y install gdb libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev zlib1g-dev libgtk2.0-dev jq
+
+if [ ! -d "Rack" ]; then
+    git clone --recursive https://github.com/VCVRack/Rack.git
+fi
+
+cd Rack/plugins
+
+vcvPlugs -j$JOBS
+cd ..
+
+make dep -j$JOBS
+make -j$JOBS
+sudo mv Rack /usr/bin
+
+}
+
 if [ ! -z "$2" ]; then 
     JOBS=$2
 fi
@@ -294,6 +313,11 @@ if [ "$1" == "--osc" ]; then
     exit
 fi
 
+if [ "$1" == "--rack" ]; then
+    rack
+    exit
+fi
+
 if [ "$1" == "--all" ]; then
     faust
     score
@@ -303,6 +327,7 @@ if [ "$1" == "--all" ]; then
     guido
     inscore
     osc
+    rack
     exit
 fi
 

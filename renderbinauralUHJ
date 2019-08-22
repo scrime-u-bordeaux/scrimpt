@@ -1,0 +1,23 @@
+#!/bin/bash
+# run this in a directory with B-format files with .wav suffix
+# Writes files at 48kHz
+
+[ -d binaural ] || mkdir binaural
+[ -d stereo ] || mkdir stereo
+
+
+for file in *.wav 
+do 
+
+sclang ~/bin/renderbinUHJ.sc $file
+sleep 2
+done
+
+cd stereo
+batchmp3_320
+
+cd ../binaural
+batchmp3_320
+
+
+exit 0
