@@ -146,11 +146,16 @@ if [ "$1" == "--install" ]; then
     fi
   
     cp $REPDIR/scrimpt/up $HOME/bin
+    chmod +x $REPDIR/scrimpt/batchmp3_320 
     cp $REPDIR/scrimpt/batchmp3_320 $HOME/bin
+    chmod +x $REPDIR/scrimpt/renderbinauralUHJ
     cp $REPDIR/scrimpt/renderbinauralUHJ $HOME/bin
     cp $REPDIR/scrimpt/renderbinUHJ.sc $HOME/bin
+    chmod +x $REPDIR/scrimpt/vcvPlugs
     cp $REPDIR/scrimpt/vcvPlugs $HOME/bin
+    chmod +x $REPDIR/scrimpt/repos
     cp $REPDIR/scrimpt/repos $HOME/bin
+
     
     new	
     
