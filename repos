@@ -53,7 +53,7 @@ score() {
 
 sudo apt -y install qtbase5-dev qtbase5-dev-tools libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils qtquickcontrols2-5-dev libqt5serialport5-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libqt5serialport5-dev 
 
-if [ ! -d "supercollider" ]; then
+if [ ! -d "score" ]; then
     git clone --recursive https://github.com/OSSIA/score.git 
 fi
 
