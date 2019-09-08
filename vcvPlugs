@@ -228,6 +228,7 @@ do
 cd $folder
 git pull
 git submodule update --init --recursive
+make clean
 make dep $1
 make $1
 make install

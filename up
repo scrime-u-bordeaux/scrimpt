@@ -47,7 +47,7 @@ update
 remove
 clean	
 
-sudo apt -yy install kxstudio-meta-graphics kxstudio-meta-video kxstudio-meta-audio-plugins kxstudio-meta-audio-plugins-collection kxstudio-meta-audio-plugins-lv2 kxstudio-meta-audio-plugins-ladspa kxstudio-meta-audio-plugins-vst kxstudio-lv2-extensions soundconverter surge iem-plugin-suite-vst luppp lsp-plugins libjack-jackd2-dev portaudio19-dev libasound2-dev libz-dev libglibmm-2.4-1v5 gparted ntp synaptic nfs-kernel-server emacs kate octave build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev liblilv-dev libsndfile1-dev libfftw3-dev libusb-1.0.0-dev libudev-dev libmicrohttpd-dev libcairo2-dev libsuil-dev curl libglu1-mesa-dev
+sudo apt -yy install kxstudio-meta-graphics kxstudio-meta-video kxstudio-meta-audio-plugins kxstudio-meta-audio-plugins-collection kxstudio-meta-audio-plugins-lv2 kxstudio-meta-audio-plugins-ladspa kxstudio-meta-audio-plugins-vst kxstudio-lv2-extensions soundconverter surge aliki tetraproc iem-plugin-suite-vst luppp lsp-plugins libjack-jackd2-dev portaudio19-dev libasound2-dev libz-dev libglibmm-2.4-1v5 gparted ntp synaptic nfs-kernel-server emacs kate octave build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev liblilv-dev libsndfile1-dev libfftw3-dev libusb-1.0.0-dev libudev-dev libmicrohttpd-dev libcairo2-dev libsuil-dev curl libglu1-mesa-dev
  
 }
 
@@ -146,16 +146,15 @@ if [ "$1" == "--install" ]; then
     fi
   
     cp $REPDIR/scrimpt/up $HOME/bin
-    chmod +x $REPDIR/scrimpt/batchmp3_320 
     cp $REPDIR/scrimpt/batchmp3_320 $HOME/bin
-    chmod +x $REPDIR/scrimpt/renderbinauralUHJ
+    chmod +x $HOME/bin/batchmp3_320 
     cp $REPDIR/scrimpt/renderbinauralUHJ $HOME/bin
+    chmod +x $HOME/bin/renderbinauralUHJ
     cp $REPDIR/scrimpt/renderbinUHJ.sc $HOME/bin
-    chmod +x $REPDIR/scrimpt/vcvPlugs
     cp $REPDIR/scrimpt/vcvPlugs $HOME/bin
-    chmod +x $REPDIR/scrimpt/repos
+    chmod +x $HOME/bin/vcvPlugs
     cp $REPDIR/scrimpt/repos $HOME/bin
-
+    chmod +x $HOME/bin/repos
     
     new	
     
