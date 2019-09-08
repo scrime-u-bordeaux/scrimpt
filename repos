@@ -253,12 +253,34 @@ if [ ! -d "Rack" ]; then
     git clone --recursive https://github.com/VCVRack/Rack.git
 fi
 
+cd Rack/dep
+make clean
+cd ..
+make dep -j$JOBS
+
 cd Rack/plugins
 
 vcvPlugs -j$JOBS
 cd ..
 
-make dep -j$JOBS
+if [ ! -d "Bridge" ]; then
+    git clone --recursive https://github.com/scrime-u-bordeaux/Bridge.git
+fi
+
+cd Bridge/VST
+
+if [ ! -d "VST2_SDK" ]; then
+    wget https://archive.org/download/VST2SDK/vstsdk2_4.zip
+    unzip vstsdk2_4.zip
+    mv vstsdk2.4 VST2_SDK
+fi
+
+make clean
+make dist -j$JOBS
+sudo make install
+
+cd ../../
+make clean
 make -j$JOBS
 sudo mv Rack /usr/bin
 
