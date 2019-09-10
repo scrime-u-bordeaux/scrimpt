@@ -140,6 +140,7 @@ sudo ./waf uninstall
 ./waf configure --freedesktop --lxvst --lv2 --ptformat --nls --optimize --with-backend=alsa,jack,dummy 
 ./waf build -j$JOBS
 sudo ./waf install
+./tools/videotimeline/install_video_tools.sh 
 
 }
 
@@ -258,8 +259,7 @@ make clean
 cd ..
 make dep -j$JOBS
 
-cd Rack/plugins
-
+cd /plugins
 vcvPlugs -j$JOBS
 cd ..
 
@@ -283,6 +283,7 @@ cd ../../
 make clean
 make -j$JOBS
 sudo mv Rack /usr/bin
+mv Core.json ~/.Rack
 
 }
 
