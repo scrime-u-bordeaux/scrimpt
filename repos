@@ -57,6 +57,10 @@ if [ ! -d "score" ]; then
     git clone --recursive https://github.com/OSSIA/score.git 
 fi
 
+if [ ! -d "score-user-library" ]; then
+    git clone --recursive https://github.com/OSSIA/score-user-library.git
+fi
+
 (
 cd $BUILD_DIR
 
