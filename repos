@@ -259,7 +259,7 @@ make clean
 cd ..
 make dep -j$JOBS
 
-cd /plugins
+cd plugins
 vcvPlugs -j$JOBS
 cd ..
 
