@@ -284,7 +284,6 @@ make clean
 make -j$JOBS
 sudo mv Rack /usr/bin
 cp Core.json ~/.Rack
-cp icon.icns /usr/share/pixmaps
 cp -r res ~/.Rack
 
 }
