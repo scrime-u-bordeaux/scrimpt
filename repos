@@ -219,8 +219,8 @@ cd inscore
 git checkout dev
 cd build 
 make -j$JOBS
-mv bin/inscoreviewer /usr/bin
-mv bin/lib* /usr/lib
+sudo mv bin/inscoreviewer /usr/bin
+sudo mv bin/lib* /usr/lib
 
 }
 
@@ -234,10 +234,10 @@ fi
 
 cd open-stage-control
 
-sudo npm install
+npm install
 
 export PLATFORM=linux
-sudo npm run build
+npm run build
 npm run package
 
 rm -rf dist/open-stage-control-linux-x64/*.deb
@@ -283,7 +283,9 @@ cd ../../
 make clean
 make -j$JOBS
 sudo mv Rack /usr/bin
-mv Core.json ~/.Rack
+cp Core.json ~/.Rack
+cp icon.icns /usr/share/pixmaps
+cp -r res ~/.Rack
 
 }
 
