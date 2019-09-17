@@ -79,6 +79,28 @@ sudo dpkg -i *.deb
  
 }
 
+ossia() {
+
+if [ ! -d "score" ]; then
+    score
+fi
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "ossia-pd" ]; then
+   mkdir ossia-pd
+fi
+
+cd ossia-pd
+
+cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_PD_ONLY=1 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia
+make -j$JOBS
+make install
+)
+
+}
+
 supercollider() {
 
 sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
@@ -144,6 +166,7 @@ if [ ! -d "ardour" ]; then
     git clone --recursive https://github.com/ardour/ardour.git
 fi
 
+(
 cd ardour
 
 git checkout tags/5.12
@@ -153,6 +176,7 @@ sudo ./waf uninstall
 ./waf build -j$JOBS
 sudo ./waf install
 ./tools/videotimeline/install_video_tools.sh 
+)
 
 }
 
@@ -164,12 +188,14 @@ if [ ! -d "zyn-fusion-build" ]; then
     git clone --recursive https://github.com/zynaddsubfx/zyn-fusion-build.git
 fi
 
+(
 cd zyn-fusion-build
 
 ruby build-linux.rb
 tar -jxvf zyn-fusion-linux-64bit-3.0.3-patch1-release.tar.bz2
 cd zyn-fusion
 sudo bash ./install-linux.sh
+)
 
 }
 
@@ -227,12 +253,15 @@ if [ ! -d "inscore" ]; then
     git clone --recursive https://github.com/grame-cncm/inscore.git
 fi
 
+(
 cd inscore
+
 git checkout dev
 cd build 
 make -j$JOBS
 sudo mv bin/inscoreviewer /usr/bin
 sudo mv bin/lib* /usr/lib
+)
 
 }
 
@@ -244,6 +273,7 @@ if [ ! -d "open-stage-control" ]; then
     git clone https://github.com/jean-emmanuel/open-stage-control.git
 fi
 
+(
 cd open-stage-control
 
 npm install
@@ -255,6 +285,7 @@ npm run package
 rm -rf dist/open-stage-control-linux-x64/*.deb
 npm run deb64
 sudo dpkg -i dist/open-stage-control-linux-x64/*.deb
+)
 
 }
 
@@ -266,7 +297,9 @@ if [ ! -d "Rack" ]; then
     git clone --recursive https://github.com/VCVRack/Rack.git
 fi
 
+(
 cd Rack/dep
+
 make clean
 cd ..
 make dep -j$JOBS
@@ -292,11 +325,13 @@ make dist -j$JOBS
 sudo make install
 
 cd ../../
+
 make clean
 make -j$JOBS
 sudo mv Rack /usr/bin
 cp Core.json ~/.Rack
 cp -r res ~/.Rack
+)
 
 }
 
@@ -311,6 +346,11 @@ fi
 
 if [ "$1" == "--score" ]; then
     score
+    exit
+fi
+
+if [ "$1" == "--ossia" ]; then
+    ossia
     exit
 fi
 
@@ -357,6 +397,7 @@ fi
 if [ "$1" == "--all" ]; then
     faust
     score
+    ossia
     supercollider
     ardour
     zyn
