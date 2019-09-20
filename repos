@@ -207,7 +207,6 @@ fi
 
 (
 cd guidolib
-git checkout dev
 
 cd $BUILD_DIR
 
