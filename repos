@@ -216,7 +216,7 @@ fi
 
 cd guidolib
 
-cmake $SRC_DIR/guidolib/build 
+cmake $SRC_DIR/guidolib/build -DGL=0 -DSTATICLIB=1 -DCMAKE_BUILD_TYPE=release
 make -j$JOBS
 sudo make install
 )
@@ -237,7 +237,7 @@ fi
 
 cd guidoar
 
-cmake $SRC_DIR/guidoar/build 
+cmake $SRC_DIR/guidoar/build -DCMAKE_BUILD_TYPE=release
 make -j$JOBS
 sudo make install
 )
