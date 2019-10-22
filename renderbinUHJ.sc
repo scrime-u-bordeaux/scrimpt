@@ -14,7 +14,7 @@ filename.postln;
    sndbuf = CtkBuffer.playbuf(filename);
     score.add(sndbuf);
 	//	    encoder = FoaEncoderKernel.newUHJ;
-    decoder = FoaDecoderKernel.newCIPIC(21);
+    decoder = FoaDecoderKernel.newCIPIC(21, s, s.sampleRate.asInteger);
 	decoderUHJ = FoaDecoderKernel.newUHJ;
     s.sync(cond);
     // the FoaEncoderKernel and FoaDecoderKernel classes will return info that can be

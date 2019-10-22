@@ -141,6 +141,18 @@ if [ ! -d "adt" ]; then
     )
 fi
 
+if [ ! -d "$HOME/.local/share/ATK/" ]; then
+    mkdir $HOME/.local/share/ATK
+    (
+        cd $HOME/.local/share/ATK
+        git clone https://github.com/ambisonictoolkit/atk-kernels.git
+        git clone https://github.com/ambisonictoolkit/atk-matrices.git
+        
+        mv atk-kernels kernels
+        mv atk-matrices matrices
+    )
+fi
+
 (
 cd $BUILD_DIR
 
@@ -216,7 +228,7 @@ fi
 
 cd guidolib
 
-cmake $SRC_DIR/guidolib/build 
+cmake $SRC_DIR/guidolib/build -DGL=0 -DSTATICLIB=1 -DCMAKE_BUILD_TYPE=release
 make -j$JOBS
 sudo make install
 )
@@ -237,7 +249,7 @@ fi
 
 cd guidoar
 
-cmake $SRC_DIR/guidoar/build 
+cmake $SRC_DIR/guidoar/build -DCMAKE_BUILD_TYPE=release
 make -j$JOBS
 sudo make install
 )
