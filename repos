@@ -348,8 +348,6 @@ cp -r res ~/.Rack
 
 arduino() {
 
-sudo apt-y install ant openjdk-8-jdk unzip openjfx
-
 if [ ! -d "arduino-1.8.10-linux64.tar.xz" ]; then
     wget https://downloads.arduino.cc/arduino-1.8.10-linux64.tar.xz
 fi
