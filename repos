@@ -348,9 +348,31 @@ cp -r res ~/.Rack
 
 arduino() {
 
-if [ ! -d "arduino-1.8.10-linux64.tar.xz" ]; then
+if [ ! -e "arduino-1.8.10-linux64.tar.xz" ]; then
+    rm -rf arduino-*-linux64.tar.xz
     wget https://downloads.arduino.cc/arduino-1.8.10-linux64.tar.xz
 fi
+
+if [ ! -e "TeensyduinoInstall.linux64" ]; then
+    rm -rf TeensyduinoInstall.linux64 
+    wget https://www.pjrc.com/teensy/td_148/TeensyduinoInstall.linux64
+fi
+
+rm -rf ../build/arduino-*
+tar -xJvf arduino-*-linux64.tar.xz -C ../build/
+
+(
+cd $BUILD_DIR
+cd arduino*
+./arduino-linux-setup.sh $USER
+sudo ./install.sh
+)
+
+chmod +x TeensyduinoInstall.linux64
+
+echo "install Teensyduino in $USER/Documents/build/arduino{version}" 
+
+./TeensyduinoInstall.linux64
 
 }
 
