@@ -29,7 +29,8 @@ sudo apt install -yy wget apt-transport-https gpgv
 
 cd $REPDIR
 if [ ! -e "kxstudio-repos_10.0.3_all.deb" ]; then
-    rm -rf kxstudio-repos_10.0.3_all.deb
+    rm -rf kxstudio-repo*
+    sudo apt purge kxstudio-repo*
     wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_10.0.3_all.deb
 fi
 
@@ -42,8 +43,6 @@ sudo dpkg -i kxstudio-repos_10.0.3_all.deb
 update
 remove
 clean	
-
-#kxstudio-meta-audio-plugins-collection kxstudio-meta-audio-plugins-lv2 kxstudio-meta-audio-plugins-vst
 
 sudo apt -yy install kxstudio-meta-audio-plugins-collection kxstudio-meta-audio-plugins-lv2 kxstudio-meta-audio-plugins-vst kxstudio-meta-graphics kxstudio-meta-video kxstudio-meta-audio-plugins kxstudio-meta-audio-plugins-ladspa kxstudio-lv2-extensions soundconverter surge aliki tetraproc iem-plugin-suite-vst luppp lsp-plugins libjack-jackd2-dev portaudio19-dev libasound2-dev libz-dev libglibmm-2.4-1v5 gparted ntp synaptic emacs kate octave build-essential g++ pkg-config llvm clang git cmake cmake-curses-gui qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev liblilv-dev libsndfile1-dev libfftw3-dev libusb-1.0.0-dev libudev-dev libmicrohttpd-dev libcairo2-dev libsuil-dev curl libglu1-mesa-dev
  
