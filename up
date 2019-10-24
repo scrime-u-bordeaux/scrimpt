@@ -29,8 +29,6 @@ sudo apt install -yy wget apt-transport-https gpgv
 
 cd $REPDIR
 if [ ! -e "kxstudio-repos_10.0.3_all.deb" ]; then
-    rm -rf kxstudio-repo*
-    sudo apt purge kxstudio-repo*
     wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_10.0.3_all.deb
 fi
 
