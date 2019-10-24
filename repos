@@ -13,7 +13,7 @@ fi
 faust() {
 
 if [ ! -d "faust" ]; then
-    git clone --recursive https://github.com/grame-cncm/faust.git -b master 
+    git clone --recursive https://github.com/grame-cncm/faust.git
 fi
 
 (
@@ -42,7 +42,7 @@ fi
 
 cd faust
 
-cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
+cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
 make -j$JOBS
 sudo make install
 )
@@ -356,10 +356,12 @@ fi
 if [ ! -e "TeensyduinoInstall.linux64" ]; then
     rm -rf TeensyduinoInstall.linux64 
     wget https://www.pjrc.com/teensy/td_148/TeensyduinoInstall.linux64
+    wget http://www.pjrc.com/teensy/49-teensy.rules
 fi
 
 rm -rf ../build/arduino-*
 tar -xJvf arduino-*-linux64.tar.xz -C ../build/
+sudo cp 49-teensy.rules /etc/udev/rules.d/49-teensy.rules
 
 (
 cd $BUILD_DIR
