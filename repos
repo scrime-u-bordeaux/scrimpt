@@ -106,8 +106,17 @@ supercollider() {
 sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
 
 if [ ! -d "supercollider" ]; then
-    git clone --recursive https://github.com/supercollider/supercollider.git
+    git clone --recursive https://github.com/pchdev/wsclang.git
 fi
+
+(
+cd wsclang
+
+yes | cp -rf overwrites/lang/CMakeLists.txt dependencies/supercollider/lang
+yes | cp -rf overwrites/lang/LangPrimSource/OSCData.cpp dependencies/supercollider/lang/LangPrimSource
+yes | cp -rf overwrites/lang/LangPrimSource/PyrPrimitive.cpp dependencies/supercollider/lang/LangPrimSource
+yes | cp -rf sclang/WebSocket dependencies/supercollider/SCClassLibrary/Common
+)
 
 (
 cd $BUILD_DIR
@@ -118,7 +127,7 @@ fi
 
 cd supercollider
 
-cmake $SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release 
+cmake $SRC_DIR/wsclang/dependencies/supercollider -DCMAKE_BUILD_TYPE=Release 
 make -j$JOBS
 sudo make install
 )
@@ -162,7 +171,7 @@ fi
 
 cd sc3-pluginsHOA
 
-cmake $SRC_DIR/sc3-pluginsHOA -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release 
+cmake $SRC_DIR/sc3-pluginsHOA -DSC_PATH=$SRC_DIR/wsclang/dependencies/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0
 make -j$JOBS
 sudo make install
 )
