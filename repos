@@ -105,7 +105,7 @@ supercollider() {
 
 sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
 
-if [ ! -d "supercollider" ]; then
+if [ ! -d "wsclang" ]; then
     git clone --recursive https://github.com/pchdev/wsclang.git
 fi
 
@@ -248,7 +248,6 @@ fi
 
 (
 cd guidoar
-git checkout dev
 
 cd $BUILD_DIR
 
@@ -276,7 +275,6 @@ fi
 (
 cd inscore
 
-git checkout dev
 cd build 
 make -j$JOBS
 sudo mv bin/inscoreviewer /usr/bin
@@ -318,10 +316,8 @@ if [ ! -d "Rack" ]; then
 fi
 
 (
-cd Rack/dep
 
-make clean
-cd ..
+cd Rack
 make dep -j$JOBS
 
 cd plugins
@@ -340,13 +336,11 @@ if [ ! -d "VST2_SDK" ]; then
     mv vstsdk2.4 VST2_SDK
 fi
 
-make clean
 make dist -j$JOBS
 sudo make install
 
 cd ../../
 
-make clean
 make -j$JOBS
 sudo mv Rack /usr/bin
 cp Core.json ~/.Rack
@@ -466,5 +460,175 @@ if [ "$1" == "--all" ]; then
     exit
 fi
 
-exit
+if [ "$1" == "--pull" ]; then
 
+    (
+        cd $BUILD_DIR
+        rm -rf *
+    )
+    
+    # faust
+    (
+        if [ ! -d "faust" ]; then
+            git clone --recursive https://github.com/grame-cncm/faust.git
+        else
+            cd faust
+            git pull
+            git submodule update --init --recursive 
+        fi
+    )
+    
+    # score
+    (
+        if [ ! -d "score" ]; then
+            git clone --recursive https://github.com/OSSIA/score.git 
+        else
+            (
+                cd score 
+                git pull    
+                git submodule update --init --recursive 
+            )
+        fi
+
+        if [ ! -d "score-user-library" ]; then
+            git clone --recursive https://github.com/OSSIA/score-user-library.git
+        else  
+            cd ../score-user-library
+            git pull
+        fi
+    )
+    
+    # supercollider
+    (
+        if [ ! -d "wsclang" ]; then
+        git clone --recursive https://github.com/pchdev/wsclang.git
+        else  
+            cd wsclang
+            git pull
+            git submodule update --init --recursive
+        fi
+    )
+
+    # sc3-pluginsHOA
+    (
+        if [ ! -d "sc3-pluginsHOA" ]; then
+            git clone --recursive https://github.com/scrime-u-bordeaux/sc3-pluginsHOA.git
+        else
+            (
+                cd sc3-pluginsHOA
+                git pull
+                git submodule update --init --recursive 
+            )
+        fi
+
+        if [ ! -d "adt" ]; then
+        git clone https://bitbucket.org/ambidecodertoolbox/adt.git
+            (
+                cd adt
+                octave adt_initialize
+            )
+        else
+            cd adt
+            git pull
+        fi
+
+        if [ ! -d "$HOME/.local/share/ATK/" ]; then
+        mkdir $HOME/.local/share/ATK
+        (
+            cd $HOME/.local/share/ATK
+            git clone https://github.com/ambisonictoolkit/atk-kernels.git
+            git clone https://github.com/ambisonictoolkit/atk-matrices.git
+        
+            mv atk-kernels kernels
+            mv atk-matrices matrices
+        )
+        else
+            cd $HOME/.local/share/ATK/kernels
+            git pull
+        
+            cd ../matrices
+            git pull
+        fi
+    )
+    
+    # ardour
+    (
+        if [ ! -d "ardour" ]; then
+            git clone --recursive https://github.com/ardour/ardour.git
+        else
+            cd ardour
+            ./waf clean
+            git pull
+            git submodule update --init --recursive
+        fi
+    )
+    
+    # zyn
+    (
+        if [ ! -d "zyn-fusion-build" ]; then
+            git clone --recursive https://github.com/zynaddsubfx/zyn-fusion-build.git
+        else
+            cd zyn-fusion-build
+            git pull
+            git submodule update --init --recursive
+        fi
+    )
+    
+    # guido
+    (
+        if [ ! -d guidolib ]; then
+            git clone https://github.com/grame-cncm/guidolib.git 
+        else
+            cd guidolib
+            git pull
+        fi
+        
+        if [ ! -d guidoar ]; then
+            git clone https://github.com/grame-cncm/guidoar.git
+        else
+            cd guidoar
+            git pull
+        fi
+    )
+    
+    # inscore
+    (
+        if [ ! -d "inscore" ]; then
+            git clone --recursive https://github.com/grame-cncm/inscore.git
+        else
+            cd inscore
+            make clean
+            git pull
+        fi
+    )
+    
+    # osc
+    (
+        if [ ! -d "open-stage-control" ]; then
+            git clone https://github.com/jean-emmanuel/open-stage-control.git
+        else
+            cd open-stage-control
+            git pull
+        fi
+    )
+    
+    # rack
+    (
+        if [ ! -d "Rack" ]; then
+            git clone --recursive https://github.com/VCVRack/Rack.git
+        else
+            cd Rack
+            make clean
+            cd dep
+            make clean
+            cd
+            git pull    
+        fi
+    )
+    
+    # arduino
+    
+    exit
+fi
+
+exit
