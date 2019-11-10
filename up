@@ -17,6 +17,10 @@ dpkg -l | grep -qw less || sudo apt install less -yyq
 
 set -e
 
+if [ ! -d "$HOME/Documents/repos" ]; then
+    mkdir "$HOME/Documents/repos"
+fi
+
 export REPDIR="$HOME/Documents/repos"
 
 # Functions:
@@ -141,24 +145,22 @@ if [ "$1" == "--install" ]; then
         echo "up will be installed on next log in, run it with --install again to update when the script itself can be updated" 
     fi
   
-    cp $REPDIR/scrimpt/up $HOME/bin
-    cp $REPDIR/scrimpt/batchmp3_320 $HOME/bin
+    cp ${pwd}up $HOME/bin
+    cp ${pwd}batchmp3_320 $HOME/bin
     chmod +x $HOME/bin/batchmp3_320 
-    cp $REPDIR/scrimpt/renderbinauralUHJ $HOME/bin
+    cp ${pwd}renderbinauralUHJ $HOME/bin
     chmod +x $HOME/bin/renderbinauralUHJ
-    cp $REPDIR/scrimpt/renderbinUHJ.sc $HOME/bin
-    cp $REPDIR/scrimpt/vcvPlugs $HOME/bin
-    chmod +x $HOME/bin/vcvPlugs
-    cp $REPDIR/scrimpt/repos $HOME/bin
+    cp ${pwd}renderbinUHJ.sc $HOME/bin
+    cp ${pwd}repos $HOME/bin
     chmod +x $HOME/bin/repos
     
     new	
     
-    cd $REPDIR/scrimpt/bform2ald/source/
+    cd ${pwd}bform2ald/source/
+    make clean  
     make
-    mv $REPDIR/scrimpt/bform2ald/source/makemulti $HOME/bin
-    mv $REPDIR/scrimpt/bform2ald/source/bform2ald $HOME/bin
-    make clean
+    mv makemulti $HOME/bin
+    mv bform2ald $HOME/bin
     
     leave
 fi
