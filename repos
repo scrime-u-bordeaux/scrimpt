@@ -548,8 +548,8 @@ for folder in *
 do
 (
 cd $folder
-make dep $1
-make $1
+make dep $1 -j$JOBS
+make $1 -j$JOBS
 make install
 )
 done
@@ -809,35 +809,35 @@ if [ "$1" == "--pull" ]; then
      # rack
     (
          if [ -d "Rack" ]; then
-             cd Rack
-             make clean
-             cd dep
-             make clean
+            cd Rack
+            git pull
+            git submodule update --init --recursive
+            cp Core.json ~/.Rack
+            cp -r res ~/.Rack
              
-             cd ..
-             git pull
-             git submodule update --init --recursive
-             cp Core.json ~/.Rack
-             cp -r res ~/.Rack
+            cd plugins
+            for folder in * 
+            do
+            (
+            cd $folder
+            make clean  
+            git pull
+            git submodule update --init --recursive
+            )
+            done
              
-             cd plugins
-             for folder in * 
-             do
-             (
-             cd $folder
-             make clean  
-             git pull
-             git submodule update --init --recursive
-             )
-             done
-             
-             cd ../Bridge/VST
-             if [ -d "Bridge" ]; then
-                 make clean
-                 cd ..
-                 git pull
-                 git submodule update --init --recursive
-                fi
+            cd ../Bridge/VST
+            if [ -d "Bridge" ]; then
+                make clean
+                cd ..
+                git pull
+                git submodule update --init --recursive
+            fi
+            
+            cd ../../
+            make clean
+            cd dep
+            make clean 
         fi
     )
     
