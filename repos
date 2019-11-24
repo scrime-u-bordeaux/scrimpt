@@ -719,7 +719,7 @@ if [ "$1" == "--pull" ]; then
         fi
 
         if [ -d "score-user-library" ]; then 
-            cd ../score-user-library
+            cd score-user-library
             git pull
         fi
     )
