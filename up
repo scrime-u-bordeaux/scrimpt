@@ -47,7 +47,7 @@ remove
 clean
 update	
 
-sudo snap install cmake
+sudo snap install cmake --classic
 
 sudo apt -yy install kxstudio-meta-audio-plugins-collection kxstudio-meta-audio-plugins-lv2 kxstudio-meta-audio-plugins-vst kxstudio-recommended-video kxstudio-lv2-extensions soundconverter surge aliki tetraproc iem-plugin-suite-vst luppp libjack-jackd2-dev portaudio19-dev libasound2-dev libz-dev libglibmm-2.4-1v5 gparted ntp synaptic emacs kate octave build-essential g++ pkg-config llvm clang git  qt5-default qttools5-dev qtdeclarative5-dev libqt5svg5-dev libqt5websockets5-dev liblilv-dev libsndfile1-dev libfftw3-dev libusb-1.0.0-dev libudev-dev libmicrohttpd-dev libcairo2-dev libsuil-dev curl libglu1-mesa-dev openssh-server
  
