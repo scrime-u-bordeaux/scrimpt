@@ -85,24 +85,16 @@ if [ ! -d "score" ]; then
     score
 fi
 
-(
-cd $BUILD_DIR
-
-if [ ! -d "ossia-pd" ]; then
-   mkdir ossia-pd
-fi
-
-(
-cd ossia-pd
-
-cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_PD_ONLY=1 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia
-make -j$JOBS
-make install
-)
-
 if [ ! -d "openframeworcks" ]; then
     openframeworcks
 fi
+
+(
+cd openframeworcks/addons
+if [ ! -d "ofxOscQuery" ]; then
+   git clone --recursive https://github.com/bltzr/ofxOscQuery.git
+fi
+)
 
 (
 cd $BUILD_DIR
@@ -110,7 +102,7 @@ cd $BUILD_DIR
 if [ ! -d "ossia-cpp" ]; then
    mkdir ossia-cpp
 fi
-
+(
 cd ossia-cpp
 
 cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC
@@ -122,6 +114,16 @@ cp src/libossia.a $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linu
 cp $SRC_DIR/score/3rdparty/libossia/src/ossia-cpp/ossia-cpp98.hpp $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
 cp cp $BUILD_DIR/score/3rdparty/libossia/src/ossia_export.h $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
 )
+
+if [ ! -d "ossia-pd" ]; then
+   mkdir ossia-pd
+fi
+
+cd ossia-pd
+
+cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_PD_ONLY=1 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia
+make -j$JOBS
+make install
 )
 }
 
@@ -832,20 +834,20 @@ done
 
 cd ..
 
-if [ ! -d "Bridge" ]; then
-    git clone --recursive https://github.com/scrime-u-bordeaux/Bridge.git
-fi
-
-cd Bridge/VST
-
-if [ ! -d "VST2_SDK" ]; then
-    wget https://archive.org/download/VST2SDK/vstsdk2_4.zip
-    unzip vstsdk2_4.zip
-    mv vstsdk2.4 VST2_SDK
-fi
-
-make dist -j$JOBS
-sudo make install
+# if [ ! -d "Bridge" ]; then
+#     git clone --recursive https://github.com/scrime-u-bordeaux/Bridge.git
+# fi
+# 
+# cd Bridge/VST
+# 
+# if [ ! -d "VST2_SDK" ]; then
+#     wget https://archive.org/download/VST2SDK/vstsdk2_4.zip
+#     unzip vstsdk2_4.zip
+#     mv vstsdk2.4 VST2_SDK
+# fi
+# 
+# make dist -j$JOBS
+# sudo make install
 
 cd ../../
 
@@ -883,7 +885,7 @@ sudo ./install.sh
 
 chmod +x TeensyduinoInstall.linux64
 
-echo "install Teensyduino in $USER/Documents/build/arduino{version}" 
+echo "install Teensyduino in $BUILD_DIR/arduino{version}" 
 
 ./TeensyduinoInstall.linux64
 
@@ -924,11 +926,7 @@ cd ../
 ./compilePG.sh -j$JOBS
 cd ../qtcreator/
 ./install_template.sh
-cd ../../addons/
 
-if [ ! -d "ofxOscQuery" ]; then
-   git clone --recursive https://github.com/bltzr/ofxOscQuery.git
-fi
 )
 }
 
@@ -1066,13 +1064,13 @@ repos_pull ()
             )
             done
              
-            cd ../Bridge/VST
-            if [ -d "Bridge" ]; then
-                make clean
-                cd ..
-                git pull
-                git submodule update --init --recursive
-            fi
+#             cd ../Bridge/VST
+#             if [ -d "Bridge" ]; then
+#                 make clean
+#                 cd ..
+#                 git pull
+#                 git submodule update --init --recursive
+#             fi
             
             cd ../../
             make clean
@@ -1182,6 +1180,16 @@ if [ "$1" == "--arduino" ]; then
     exit
 fi
 
+if [ "$1" == "--processing" ]; then
+    processing
+    exit
+fi
+
+if [ "$1" == "--openframeworcks" ]; then
+    openframeworcks
+    exit
+fi
+
 if [ "$1" == "--all" ]; then
     faust
     score
@@ -1194,6 +1202,8 @@ if [ "$1" == "--all" ]; then
     osc
     rack
     arduino
+    processing
+    openframeworcks
     exit
 fi
 
