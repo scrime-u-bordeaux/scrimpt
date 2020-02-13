@@ -85,12 +85,12 @@ if [ ! -d "score" ]; then
     score
 fi
 
-if [ ! -d "openframeworcks" ]; then
-    openframeworcks
+if [ ! -d "openFrameworks" ]; then
+    openframeworks
 fi
 
 (
-cd openframeworcks/addons
+cd openFrameworks
 if [ ! -d "ofxOscQuery" ]; then
    git clone --recursive https://github.com/bltzr/ofxOscQuery.git
 fi
@@ -909,14 +909,14 @@ sudo ./install.sh
 
 }
 
-openframeworcks() {
+openframeworks() {
 
-if [ ! -d "openframeworcks" ]; then
+if [ ! -d "openframeworks" ]; then
    git clone --recursive https://github.com/openframeworks/openFrameworks.git
 fi
 
 (
-cd openframeworcks/scripts/linux/ubuntu
+cd openFrameworks/scripts/linux/ubuntu
 
 sudo apt install qtcreator libc6 qbs libmpg123-dev
 sudo install_dependencies.sh
@@ -926,7 +926,6 @@ cd ../
 ./compilePG.sh -j$JOBS
 cd ../qtcreator/
 ./install_template.sh
-
 )
 }
 
@@ -1052,7 +1051,8 @@ repos_pull ()
             git submodule update --init --recursive
             cp Core.json ~/.Rack
             cp -r res ~/.Rack
-             
+            
+            (
             cd plugins
             for folder in * 
             do
@@ -1071,11 +1071,19 @@ repos_pull ()
 #                 git pull
 #                 git submodule update --init --recursive
 #             fi
+            )
             
-            cd ../../
             make clean
             cd dep
             make clean 
+        fi
+    )
+    
+    (
+        if [ -d "openframeworks" ]; then
+            cd openframeworks
+            git pull
+            git submodule update --init --recursive
         fi
     )
 }
@@ -1185,8 +1193,8 @@ if [ "$1" == "--processing" ]; then
     exit
 fi
 
-if [ "$1" == "--openframeworcks" ]; then
-    openframeworcks
+if [ "$1" == "--openframeworks" ]; then
+    openframeworks
     exit
 fi
 
@@ -1203,7 +1211,7 @@ if [ "$1" == "--all" ]; then
     rack
     arduino
     processing
-    openframeworcks
+    openframeworks
     exit
 fi
 
