@@ -90,7 +90,7 @@ if [ ! -d "openFrameworks" ]; then
 fi
 
 (
-cd openFrameworks
+cd openFrameworks/addons
 if [ ! -d "ofxOscQuery" ]; then
    git clone --recursive https://github.com/bltzr/ofxOscQuery.git
 fi
@@ -105,23 +105,29 @@ fi
 (
 cd ossia-cpp
 
-cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC
+cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0
 make -j$JOBS
 
-mkdir -p $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/
-mkdir $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
+ if [ ! -d "$SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/" ]; then
+     mkdir -p $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/
+ fi
+
+if [ ! -d "$SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/" ]; then
+    mkdir $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
+fi
+
 cp src/libossia.a $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/
 cp $SRC_DIR/score/3rdparty/libossia/src/ossia-cpp/ossia-cpp98.hpp $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
-cp cp $BUILD_DIR/score/3rdparty/libossia/src/ossia_export.h $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
+cp $BUILD_DIR/score/3rdparty/libossia/src/ossia_export.h $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
 )
 
 if [ ! -d "ossia-pd" ]; then
-   mkdir ossia-pd
+    mkdir ossia-pd
 fi
-
+ 
 cd ossia-pd
-
-cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_PD_ONLY=1 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia
+ 
+cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_PD_ONLY=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia
 make -j$JOBS
 make install
 )
@@ -848,8 +854,8 @@ cd ..
 # 
 # make dist -j$JOBS
 # sudo make install
-
-cd ../../
+# 
+# cd ../../
 
 make -j$JOBS
 sudo mv Rack /usr/bin
@@ -919,7 +925,7 @@ fi
 cd openFrameworks/scripts/linux/ubuntu
 
 sudo apt install qtcreator libc6 qbs libmpg123-dev
-sudo install_dependencies.sh
+sudo ./install_dependencies.sh
 cd ../
 ./download_libs.sh
 ./compileOF.sh -j$JOBS
