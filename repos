@@ -904,7 +904,7 @@ if [ ! -e "processing-3.5.4-linux64.tgz" ]; then
     wget https://download.processing.org/processing-3.5.4-linux64.tgz
 fi
 
-tar zxvf processing-3.5.4-linux64.tgz -C $BUILD_DIR/processing/
+tar zxvf processing-3.5.4-linux64.tgz -C $BUILD_DIR/
 
 (
 cd $BUILD_DIR
