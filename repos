@@ -86,7 +86,7 @@ if [ ! -d "score" ]; then
 fi
 
 if [ ! -d "openFrameworks" ]; then
-    openframeworks
+    of
 fi
 
 (
@@ -915,7 +915,7 @@ sudo ./install.sh
 
 }
 
-openframeworks() {
+of() {
 
 if [ ! -d "openframeworks" ]; then
    git clone --recursive https://github.com/openframeworks/openFrameworks.git
@@ -924,8 +924,8 @@ fi
 (
 cd openFrameworks/scripts/linux/ubuntu
 
-sudo apt install qtcreator libc6 qbs libmpg123-dev
-sudo ./install_dependencies.sh
+sudo apt install -yy qtcreator libc6 qbs libmpg123-dev
+yes | sudo ./install_dependencies.sh
 cd ../
 ./download_libs.sh
 ./compileOF.sh -j$JOBS
@@ -1199,8 +1199,8 @@ if [ "$1" == "--processing" ]; then
     exit
 fi
 
-if [ "$1" == "--openframeworks" ]; then
-    openframeworks
+if [ "$1" == "--of" ]; then
+    of
     exit
 fi
 
@@ -1217,7 +1217,7 @@ if [ "$1" == "--all" ]; then
     rack
     arduino
     processing
-    openframeworks
+    of
     exit
 fi
 
