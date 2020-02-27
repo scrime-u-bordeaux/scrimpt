@@ -317,7 +317,8 @@ sudo mv bin/lib* /usr/lib
 
 osc() {
 
-sudo snap install --edge nodejs chromium-browser --classic
+sudo snap install --edge node 
+sudo snap install chromium --classic
 sudo apt -y install npm
 
 if [ ! -d "open-stage-control" ]; then
