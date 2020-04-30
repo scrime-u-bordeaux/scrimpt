@@ -51,7 +51,7 @@ sudo make install
 
 score() {
 
-sudo apt -y install qtbase5-dev qtbase5-dev-tools libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils qtquickcontrols2-5-dev libqt5serialport5-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libqt5serialport5-dev 
+sudo apt -y install libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev
 
 if [ ! -d "score" ]; then
     git clone --recursive https://github.com/OSSIA/score.git 
@@ -70,7 +70,7 @@ fi
 
 cd score
 
-cmake $SRC_DIR/score -DSCORE_CONFIGURATION=static-release -DPORTAUDIO_ONLY_DYNAMIC=1 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DSCORE_CONFIGURATION=static-release -DPORTAUDIO_ONLY_DYNAMIC=1 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 make all_unity -j$JOBS
 rm -rf *.deb
 cpack
@@ -105,7 +105,7 @@ fi
 (
 cd ossia-cpp
 
-cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0
+cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0
 make -j$JOBS
 
  if [ ! -d "$SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/" ]; then
@@ -127,7 +127,7 @@ fi
  
 cd ossia-pd
  
-cmake $SRC_DIR/score/3rdparty/libossia -DOSSIA_PD_ONLY=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia
+cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_PD_ONLY=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia
 make -j$JOBS
 make install
 )
@@ -135,7 +135,7 @@ make install
 
 supercollider() {
 
-sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev qt5-qmake qttools5-dev-tools qtpositioning5-dev libqt5sensors5-dev libqt5opengl5-dev qtwebengine5-dev
+sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev
 
 if [ ! -d "wsclang" ]; then
     git clone --recursive https://github.com/pchdev/wsclang.git
@@ -159,7 +159,7 @@ fi
 
 cd supercollider
 
-cmake $SRC_DIR/wsclang/dependencies/supercollider -DCMAKE_BUILD_TYPE=Release 
+cmake $SRC_DIR/wsclang/dependencies/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release 
 make -j$JOBS
 sudo make install
 )
@@ -298,8 +298,6 @@ sudo make install
 
 inscore() {
 
-sudo apt -y install qtmultimedia5-dev libqt5multimedia5-plugins
-
 if [ ! -d "inscore" ]; then
     git clone --recursive https://github.com/grame-cncm/inscore.git
 fi
@@ -308,7 +306,7 @@ fi
 cd inscore
 
 cd build 
-make -j$JOBS
+PREFIX=$SRC_DIR/Qt/gcc_64 make -j$JOBS
 sudo mv bin/inscoreviewer /usr/bin
 sudo mv bin/lib* /usr/lib
 )
@@ -317,9 +315,9 @@ sudo mv bin/lib* /usr/lib
 
 osc() {
 
-sudo snap install --edge node 
-sudo snap install chromium --classic
-sudo apt -y install npm
+# sudo snap install --edge node 
+# sudo snap install chromium --classic
+sudo apt install nodejs npm --edge
 
 if [ ! -d "open-stage-control" ]; then
     git clone https://github.com/jean-emmanuel/open-stage-control.git
@@ -356,6 +354,9 @@ cd Rack
 make dep -j$JOBS
 
 cd plugins
+#[submodule "repos/Fundamentals"]
+#AudibleInstruments
+	git clone --recursive https://github.com/VCVRack/Fundamental.git
 #[submodule "repos/AudibleInstruments"]
 #AudibleInstruments
 	git clone --recursive https://github.com/VCVRack/AudibleInstruments.git
@@ -868,31 +869,36 @@ cp -r res ~/.Rack
 
 arduino() {
 
-if [ ! -e "arduino-1.8.10-linux64.tar.xz" ]; then
-    rm -rf arduino-*-linux64.tar.xz
-    wget https://downloads.arduino.cc/arduino-1.8.10-linux64.tar.xz
+if [ ! -e "arduino" ]; then
+    rm -rf arduino
+    wget https://downloads.arduino.cc/arduino-1.8.12-linux64.tar.xz
 fi
 
 if [ ! -e "TeensyduinoInstall.linux64" ]; then
     rm -rf TeensyduinoInstall.linux64 
-    wget https://www.pjrc.com/teensy/td_148/TeensyduinoInstall.linux64
+    wget https://www.pjrc.com/teensy/td_151/TeensyduinoInstall.linux64
+    rm -rf 49-teensy.rules
     wget http://www.pjrc.com/teensy/49-teensy.rules
 fi
 
-rm -rf ../build/arduino-*
-tar -xJvf arduino-*-linux64.tar.xz -C ../build/
+if [ ! -e "arduino" ]; then
+    rm -rf arduino
+fi
+
+tar -xJvf arduino-*-linux64.tar.xz -C .
+rm -rf arduino-*-linux64.tar.xz
+mv arduino* arduino
 sudo cp 49-teensy.rules /etc/udev/rules.d/49-teensy.rules
 
 (
-cd $BUILD_DIR
-cd arduino*
+cd arduino
 ./arduino-linux-setup.sh $USER
 sudo ./install.sh
 )
 
 chmod +x TeensyduinoInstall.linux64
 
-echo "install Teensyduino in $BUILD_DIR/arduino{version}" 
+echo "install Teensyduino in $SRC_DIR/arduin" 
 
 ./TeensyduinoInstall.linux64
 
@@ -900,16 +906,20 @@ echo "install Teensyduino in $BUILD_DIR/arduino{version}"
 
 processing() {
 
-if [ ! -e "processing-3.5.4-linux64.tgz" ]; then
-    rm -rf processing-*-linux64.tgz
+if [ ! -e "processing" ]; then
+    rm -rf processing
     wget https://download.processing.org/processing-3.5.4-linux64.tgz
 fi
 
-tar zxvf processing-3.5.4-linux64.tgz -C $BUILD_DIR/
+if [ ! -e "processing" ]; then
+    rm -rf processing
+fi
+
+tar zxvf processing-3.5.4-linux64.tgz -C .
+rm -rf processing-*-linux64.tgz
+mv processing* processing
 
 (
-cd $BUILD_DIR
-mv processing* processing
 cd processing
 sudo ./install.sh
 )
@@ -925,7 +935,7 @@ fi
 (
 cd openFrameworks/scripts/linux/ubuntu
 
-sudo apt install -yy qtcreator libc6 qbs libmpg123-dev
+sudo apt install -yy libc6 qbs libmpg123-dev
 yes | sudo ./install_dependencies.sh
 cd ../
 ./download_libs.sh
