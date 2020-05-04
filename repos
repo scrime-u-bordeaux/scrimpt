@@ -10,6 +10,31 @@ if [ ! -d "$BUILD_DIR" ]; then
     mkdir $BUILD_DIR
 fi
 
+qt() {
+
+sudo apt -y install python3-pip python3.8 p7zip-full
+python3.8 -m pip install aqtinstall
+
+if [ ! -d "Qt" ]; then
+    python3.8 -m aqt install 5.14.2 linux desktop -m qtwebengine
+    mv 5.14.2 Qt
+fi
+
+#wget mirrors.ukfast.co.uk/sites/qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5142/#qt.qt5.5142.qtwebengine.gcc_64/5.14.2-0-202003291222qtwebengine-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-#X86_64.7z
+
+#7z x 5.14.2-0-202003291222qtwebengine-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z
+
+if [ ! -d "qtcreator" ]; then
+    mkdir qtcreator
+    (
+        cd qtcreator
+        wget https://download.qt.io/official_releases/qtcreator/4.12/4.12.0/installer_source/linux_gcc_64_rhel72/qtcreator.7z
+        7z x qtcreator.7z
+    )
+fi
+
+}
+
 faust() {
 
 if [ ! -d "faust" ]; then
@@ -52,6 +77,10 @@ sudo make install
 score() {
 
 sudo apt -y install libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev
+
+if [ ! -d "Qt" ]; then
+    qt
+fi
 
 if [ ! -d "score" ]; then
     git clone --recursive https://github.com/OSSIA/score.git 
@@ -135,7 +164,8 @@ make install
 
 supercollider() {
 
-sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev
+sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev \
+#libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libboost-test-dev
 
 if [ ! -d "wsclang" ]; then
     git clone --recursive https://github.com/pchdev/wsclang.git
@@ -213,7 +243,7 @@ sudo make install
 ardour() {
 
 sudo apt -y purge ardour
-sudo apt -y install libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
+sudo apt -y python install libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
 
 if [ ! -d "ardour" ]; then
     git clone --recursive https://github.com/ardour/ardour.git
@@ -222,9 +252,6 @@ fi
 (
 cd ardour
 
-git checkout tags/5.12
-
-sudo ./waf uninstall
 ./waf configure --freedesktop --lxvst --lv2 --ptformat --nls --optimize --with-backend=alsa,jack,dummy 
 ./waf build -j$JOBS
 sudo ./waf install
@@ -928,6 +955,10 @@ sudo ./install.sh
 
 of() {
 
+if [ ! -d "qtcreator" ]; then
+    qt
+fi
+
 if [ ! -d "openframeworks" ]; then
    git clone --recursive https://github.com/openframeworks/openFrameworks.git
 fi
@@ -1032,12 +1063,12 @@ repos_pull ()
     
     # guido
     (
-        if [ -d guidolib ]; then
+        if [ -d "guidolib" ]; then
             cd guidolib
             git pull
         fi
         
-        if [ -d guidoar ]; then
+        if [ -d "guidoar" ]; then
             cd guidoar
             git pull
         fi
@@ -1143,6 +1174,11 @@ _EOF_
 
 if [ ! -z "$2" ]; then 
     JOBS=$2
+fi
+
+if [ "$1" == "--qt" ]; then
+    qt
+    exit
 fi
 
 if [ "$1" == "--faust" ]; then
