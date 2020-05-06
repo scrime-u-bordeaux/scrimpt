@@ -30,6 +30,7 @@ if [ ! -d "qtcreator" ]; then
         cd qtcreator
         wget https://download.qt.io/official_releases/qtcreator/4.12/4.12.0/installer_source/linux_gcc_64_rhel72/qtcreator.7z
         7z x qtcreator.7z
+        rm -rf qtcreator.7z
     )
 fi
 
@@ -147,7 +148,7 @@ fi
 
 cp src/libossia.a $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/
 cp $SRC_DIR/score/3rdparty/libossia/src/ossia-cpp/ossia-cpp98.hpp $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
-cp $BUILD_DIR/score/3rdparty/libossia/src/ossia_export.h $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
+cp $BUILD_DIR/ossia-cpp/ossia_export.h $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/include/
 )
 
 if [ ! -d "ossia-pd" ]; then
@@ -375,499 +376,11 @@ if [ ! -d "Rack" ]; then
 fi
 
 (
-
 cd Rack
 
 make dep -j$JOBS
 
-cd plugins
-#[submodule "repos/Fundamentals"]
-#AudibleInstruments
-	git clone --recursive https://github.com/VCVRack/Fundamental.git
-#[submodule "repos/AudibleInstruments"]
-#AudibleInstruments
-	git clone --recursive https://github.com/VCVRack/AudibleInstruments.git
-#[submodule "repos/AmalgamatedHarmonics"]
-#AmalgamatedHarmonics
-	git clone --recursive https://github.com/jhoar/AmalgamatedHarmonics -b master
-	
-#[submodule "repos/Befaco"]
-#Befaco
-	git clone --recursive https://github.com/VCVRack/Befaco -b master
-	
-#[submodule "repos/Bogaudio"]
-#Bogaudio
-	git clone --recursive https://github.com/bogaudio/BogaudioModules -b master
-	
-#[submodule "repos/DHE-Modules"]
-#DHE-Modules
-	git clone --recursive https://github.com/dhemery/DHE-Modules -b master
-	
-#[submodule "repos/ESeries"]
-#ESeries
-	git clone --recursive https://github.com/VCVRack/ESeries -b master
-	
-#[submodule "repos/FrozenWasteland"]
-#FrozenWasteland
-	git clone --recursive https://github.com/almostEric/FrozenWasteland -b master
-	
-#[submodule "repos/Gratrix"]
-#Gratrix
-	git clone --recursive https://github.com/gratrix/vcv-gratrix -b master
-	
-#[submodule "repos/HetrickCV"]
-#HetrickCV
-	git clone --recursive https://github.com/mhetrick/hetrickcv -b master
-	
-#[submodule "repos/ML_modules"]
-#ML_modules
-	git clone --recursive https://github.com/martin-lueders/ML_modules -b master
-	
-#[submodule "repos/NauModular"]
-#NauModular
-	git clone --recursive https://github.com/naus3a/NauModular -b master
-	
-#[submodule "repos/Ohmer"]
-#Ohmer
-	git clone --recursive https://github.com/DomiKamu/Ohmer -b master
-	
-#[submodule "repos/PvC"]
-#PvC
-	git clone --recursive https://github.com/phdsg/PvC.git -b release
-#[submodule "repos/RJModules"]
-#RJModules
-	git clone --recursive https://github.com/Miserlou/RJModules -b master
-	
-#[submodule "repos/TheXOR"]
-#TheXOR
-	git clone --recursive https://github.com/The-XOR/RackPlugins -b master
-	
-#[submodule "repos/dBiz"]
-#dBiz
-	git clone --recursive https://github.com/dBiz/dBiz -b master
-	
-#[submodule "repos/luckyxxl"]
-#luckyxxl
-	git clone --recursive https://github.com/luckyxxl/vcv_luckyxxl -b master
-	
-#[submodule "repos/moDllz"]
-#moDllz
-	git clone --recursive https://github.com/dllmusic/VCV_moDllz -b master
-	
-#[submodule "repos/mtsch-plugins"]
-#mtsch-plugins
-	git clone --recursive https://github.com/mtsch/mtsch-vcvrack-plugins -b master
-	
-#[submodule "repos/s-ol"]
-#s-ol
-	git clone --recursive https://github.com/s-ol/vcvmods -b master
-	
-#[submodule "repos/squinkylabs-plug1"]
-#squinkylabs-plug1
-	git clone --recursive https://github.com/squinkylabs/SquinkyVCV -b master
-	
-#[submodule "repos/ValleyFree"]
-#Valley
-	git clone --recursive https://github.com/ValleyAudio/ValleyRackFree.git -b master
-	
-#[submodule "repos/CharredDesert"]
-#CharredDesert
-	git clone --recursive https://github.com/JerrySievert/CharredDesert -b master
-	
-#[submodule "repos/SynthKit"]
-#SynthKit
-	git clone --recursive https://github.com/JerrySievert/SynthKit -b master
-	
-#[submodule "repos/JW-Modules"]
-#JW-Modules
-	git clone --recursive https://github.com/jeremywen/JW-Modules -b master
-	
-#[submodule "repos/Alikins"]
-#Alikins
-	git clone --recursive https://github.com/alikins/Alikins-rack-plugins -b master
-	
-#[submodule "repos/DrumKit"]
-#DrumKit
-	git clone --recursive https://github.com/SVModular/DrumKit -b master
-	
-#[submodule "repos/SonusModular"]
-#SonusModular
-	git clone --recursive https://gitlab.com/sonusdept/sonusmodular.git -b master
-	
-#[submodule "repos/ArableInstruments"]
-#ArableInstruments
-	git clone --recursive https://github.com/adbrant/ArableInstruments -b master
-	
-#[submodule "repos/LOGinstruments"]
-#LOGinstruments
-	git clone --recursive https://github.com/leopard86/LOGinstruments -b master
-	
-#[submodule "repos/BaconMusic"]
-#BaconMusic
-	git clone --recursive https://github.com/baconpaul/BaconPlugs.git -b master
-	
-#[submodule "repos/MrLumps"]
-#MrLumps
-	git clone --recursive https://github.com/djpeterso23662/MrLumps -b master
-	
-#[submodule "repos/Southpole"]
-#Southpole
-	git clone --recursive https://github.com/gbrandt1/southpole-vcvrack.git -b 0.6
-#[submodule "repos/Southpole-parasites"]
-#Southpole-parasites
-	git clone --recursive https://github.com/gbrandt1/southpole-vcvrack.git -b 0.6-parasites
-#[submodule "repos/cf"]
-#cf
-	git clone --recursive https://github.com/cfoulc/cf
-	
-#[submodule "repos/ImpromptuModular"]
-#ImpromptuModular
-	git clone --recursive https://github.com/MarcBoule/ImpromptuModular.git
-	
-#[submodule "repos/modular80"]
-#modular80
-	git clone --recursive https://github.com/cschol/modular80
-	
-#[submodule "repos/com-soundchasing-stochasm"]
-#com-soundchasing-stochasm
-	git clone --recursive https://github.com/teletypist/stochasm.git
-	
-#[submodule "repos/ParableInstruments"]
-#ParableInstruments
-	git clone --recursive https://github.com/adbrant/ArableInstruments.git -b parable
-#[submodule "repos/NonLinearInstruments"]
-#NonLinearInstruments
-	git clone --recursive https://github.com/NonLinearInstruments/NLNRI_VCVRackPlugins
-	
-#[submodule "repos/mscHack"]
-#mscHack
-	git clone --recursive https://github.com/mschack/VCV-Rack-Plugins.git
-	
-#[submodule "repos/Koralfx-Modules"]
-#Koralfx-Modules
-	git clone --recursive https://github.com/koralfx/Koralfx-Modules
-	
-#[submodule "repos/Qwelk"]
-#Qwelk
-	git clone --recursive https://github.com/raincheque/qwelk.git
-#[submodule "repos/alto777_LFSR"]
-#alto777_LFSR
-	git clone --recursive https://github.com/alto777/LFSR.git
-#[submodule "repos/AS"]
-#AS
-	git clone --recursive https://github.com/AScustomWorks/AS.git
-	
-#[submodule "repos/ErraticInstruments"]
-#ErraticInstruments
-	git clone --recursive https://github.com/bafonso/Erratic.git -b v0.6
-#[submodule "repos/PG-Instruments"]
-#PG-Instruments
-	git clone --recursive https://github.com/imekon/PG-Instruments.git
-#[submodule "repos/SubmarineFree"]
-#SubmarineFree
-	git clone --recursive https://github.com/david-c14/SubmarineFree.git
-#[submodule "repos/unless_modules"]
-#unless_modules
-	git clone --recursive https://gitlab.com/unlessgames/unless_modules.git
-	
-#[submodule "repos/mental"]
-#mental
-	git clone --recursive https://github.com/Strum/Strums_Mental_VCV_Modules
-	
-#[submodule "repos/SerialRacker"]
-#SerialRacker
-	git clone --recursive https://github.com/apbianco/SerialRacker.git
-#[submodule "repos/BOKONTEPByteBeatMachine"]
-#BOKONTEPByteBeatMachine
-	git clone --recursive https://github.com/bokontep/BokontepByteBeatMachine.git
-#[submodule "repos/huaba"]
-#huaba
-	git clone --recursive https://github.com/dhuber81/huaba.git
-#[submodule "repos/Bidoo"]
-#Bidoo
-	git clone --recursive https://github.com/sebastien-bouffier/Bidoo.git
-#[submodule "repos/trowaSoft"]
-#trowaSoft
-	git clone --recursive https://github.com/j4s0n-c/trowaSoft-VCV.git
-#[submodule "repos/21kHz"]
-#21kHz
-	git clone --recursive https://github.com/21kHz/21kHz-rack-plugins.git
-#[submodule "repos/Nohmad"]
-#Nohmad
-	git clone --recursive https://github.com/joelrobichaud/Nohmad.git
-#[submodule "repos/RODENTMODULES"]
-#RODENTMODULES
-	git clone --recursive https://github.com/RODENTCAT/RODENTMODULES.git
-#[submodule "repos/computerscare"]
-#computerscare
-	git clone --recursive https://github.com/freddyz/computerscare-vcv-modules
-#[submodule "repos/Geodesics"]
-#Geodesics
-	git clone --recursive https://github.com/MarcBoule/Geodesics.git
-#[submodule "repos/KarateSnoopy"]
-#KarateSnoopy
-	git clone --recursive https://github.com/KarateSnoopy/vcv-karatesnoopy
-#[submodule "repos/noobhour"]
-#noobhour
-	git clone --recursive https://github.com/NicolasNeubauer/noobhour_modules
-#[submodule "repos/TriggerFish-Elements"]
-#TriggerFish-Elements
-	git clone --recursive https://github.com/JTriggerFish/TriggerFish-VCV.git
-#[submodule "repos/SubmarineUtility"]
-#SubmarineUtility
-	git clone --recursive https://github.com/david-c14/SubmarineUtility.git
-#[submodule "repos/BeckstromResearch"]
-#BeckstromResearch
-	git clone --recursive https://github.com/chrisbeckstrom/Beckstrom_Research_Rack.git
-#[submodule "repos/Sculpt-O-Sound"]
-#Sculpt-O-Sound
-	git clone --recursive https://github.com/josbouten/Sculpt-O-Sound.git
-#[submodule "repos/aP-Modules"]
-#aP-Modules
-	git clone --recursive https://github.com/aptrn/aP-Modules.git
-#[submodule "repos/arjo_modules"]
-#arjo_modules
-	git clone --recursive https://github.com/ArjoNagelhout/arjo_modules
-#[submodule "repos/NocturnalEncoder"]
-#NocturnalEncoder
-	git clone --recursive https://github.com/djpeterso23662/NocturnalEncoder.git
-#[submodule "repos/ModularFungi"]
-#ModularFungi
-	git clone --recursive https://github.com/david-c14/ModularFungi.git
-#[submodule "repos/HolonicSystems-Free"]
-#HolonicSystems-Free
-	git clone --recursive https://github.com/hdavid/VCVRack-Holon.ist.git
-#[submodule "repos/rcm"]
-#rcm
-	git clone --recursive https://github.com/Rcomian/rcm-modules.git
-#[submodule "repos/QuantalAudio"]
-#QuantalAudio
-	git clone --recursive https://github.com/sumpygump/quantal-audio.git
-#[submodule "repos/EH_modules"]
-#EH_modules
-	git clone --recursive https://github.com/eh2k/fv1-emu
-#[submodule "repos/Bark"]
-#Bark
-	git clone --recursive https://github.com/Coirt/Bark.git
-#[submodule "repos/Skylights"]
-#Skylights
-	git clone --recursive https://github.com/Skrylar/skylights-vcv.git
-#[submodule "repos/SkJack"]
-#SkJack
-	git clone --recursive https://github.com/Skrylar/skjack-vcv.git
-#[submodule "repos/LabSeven"]
-#LabSeven
-	git clone --recursive https://github.com/LabSevenDevVCVRack/LabSeven_VCVRack_modules.git
-#[submodule "repos/MicMusic"]
-#MicMusic
-	git clone --recursive https://github.com/very-cool-name/MicMusic-VCV.git
-#[submodule "repos/Edge"]
-#Edge
-	git clone --recursive https://github.com/Edge-Modules/Edge.git
-#[submodule "repos/Quadraphonics"]
-#Quadraphonics
-	git clone --recursive https://github.com/KoreTeknology/Quadraphonic-Plugins-for-VCV-Rack.git
-#[submodule "repos/UnforgettableLuncheon"]
-#UnforgettableLuncheon
-	git clone --recursive https://github.com/johnnymurf/Unforgettable-Luncheon.git
-#[submodule "repos/ExpertSleepers-Encoders"]
-#ExpertSleepers-Encoders
-	git clone --recursive https://github.com/expertsleepersltd/vcvrack-encoders
-#[submodule "repos/WhatTheRack"]
-#WhatTheRack
-	git clone --recursive https://github.com/korfuri/WhatTheRack.git
-#[submodule "repos/8Mode"]
-#8Mode
-	git clone --recursive https://github.com/8Mode/8Mode-VCV_Modules.git
-#[submodule "repos/Starling_Via"]
-#Starling_Via
-	git clone --recursive https://github.com/starlingcode/Via-for-Rack.git
-#[submodule "repos/CatroModulo"]
-#CatroModulo
-	git clone --recursive https://github.com/catronomix/catro-modulo.git
-#[submodule "repos/sb-StochKit"]
-#sb-StochKit
-	git clone --recursive https://github.com/smbddha/sb-StochKit.git
-#[submodule "repos/Stoermelder-P1"]
-#Stoermelder-P1
-	git clone --recursive https://github.com/stoermelder/vcvrack-packone
-#[submodule "repos/FrankBuss"]
-#FrankBuss
-	git clone --recursive https://github.com/FrankBuss/FrankBussRackPlugin.git
-#[submodule "repos/CountModula"]
-#CountModula
-	git clone --recursive https://github.com/countmodula/VCVRackPlugins.git
-#[submodule "repos/CYC"]
-#CYC
-	git clone --recursive https://github.com/mrletourneau/strong_kar.git
-#[submodule "repos/MosquitoLabs"]
-#MosquitoLabs
-	git clone --recursive https://github.com/rmosquito/vcv-mosquito.git
-#[submodule "repos/ChortlingHamsterModules"]
-#ChortlingHamsterModules
-	git clone --recursive https://github.com/chortlinghamster/modules.git
-#[submodule "repos/SLM"]
-#SLM
-	git clone --recursive https://github.com/salvolm84/SLM-vcv-rack.git
-#[submodule "repos/Circlefade"]
-#Circlefade
-	git clone --recursive https://github.com/max-circlefade/Circlefade.git
-#[submodule "repos/MyLittleTools"]
-#MyLittleTools
-	git clone --recursive https://github.com/digitalhappens/MyLittleTools.git
-#[submodule "repos/ZZC"]
-#ZZC
-	git clone --recursive https://github.com/zezic/ZZC.git
-#[submodule "repos/AnimatedCircuits"]
-#AnimatedCircuits
-	git clone --recursive https://github.com/AnimatedCircuits/RackModules.git
-#[submodule "repos/Ahornberg"]
-#Ahornberg
-	git clone --recursive https://github.com/Ahornberg/Ahornberg-Microtonal.git
-#[submodule "repos/Prism"]
-#Prism
-	git clone --recursive https://github.com/AmalgamatedHarmonics/Prism.git
-#[submodule "repos/repelzen"]
-#repelzen
-	git clone --recursive https://github.com/wiqid/repelzen
-#[submodule "repos/LomasModules"]
-#LomasModules
-	git clone --recursive https://github.com/LomasModules/LomasModules
-#[submodule "repos/wiqid-anomalies"]
-#wiqid-anomalies
-	git clone --recursive https://github.com/wiqid/anomalies.git
-#[submodule "repos/GoodSheperd"]
-#GoodSheperd
-	git clone --recursive https://github.com/jensschulze/GoodSheperd.git
-#[submodule "repos/SignalFlux"]
-#SignalFlux
-	git clone --recursive https://github.com/signal-flux/Signal-Flux-VCV-Rack-Modules.git
-#[submodule "repos/WrongPeople"]
-#WrongPeople
-	git clone --recursive https://github.com/WrongPeople/WrongPeopleVCV.git
-#[submodule "repos/CatroBlanco"]
-#CatroBlanco
-	git clone --recursive https://github.com/catronomix/Catro-Blanco.git
-#[submodule "repos/aridacity"]
-#aridacity
-	git clone --recursive https://github.com/aridacity/aridacityVCV.git
-#[submodule "repos/admiral"]
-#admiral
-	git clone --recursive https://github.com/wapiflapi/admiral.git
-#[submodule "repos/GlueTheGiant"]
-#GlueTheGiant
-	git clone --recursive https://github.com/gluethegiant/gtg-rack.git
-#[submodule "repos/vitamin"]
-#vitamin
-	git clone --recursive https://github.com/xaviershay/vitamin-vcv-modules.git
-#[submodule "repos/Chiptuner"]
-#Chiptuner
-	git clone --recursive https://github.com/The-Great-Assyr/Chiptuner.git
-#[submodule "repos/ChordController"]
-#ChordController
-	git clone --recursive https://github.com/wilsontr/ChordController.git
-#[submodule "repos/stocaudio"]
-#stocaudio
-	git clone --recursive https://github.com/aptrn/stocaudio-modules.git
-#[submodule "repos/LifeFormModular"]
-#LifeFormModular
-	git clone --recursive https://github.com/TimeControlledOrganism/LifeFormModular.git
-#[submodule "repos/TercerBrazo"]
-#TercerBrazo
-	git clone --recursive https://github.com/diegodorado/TercerBrazo.git
-#[submodule "repos/Nozoid"]
-#Nozoid
-	git clone --recursive https://github.com/ch-nry/VCV_nozori.git
-#[submodule "repos/TinyTricks"]
-#TinyTricks
-	git clone --recursive https://github.com/thomassidor/tinytricks.git
-#[submodule "repos/JE"]
-#JE
-	git clone --recursive https://github.com/eres-j/VCVRack-plugin-JE.git
-#[submodule "repos/LittleUtils"]
-#LittleUtils
-	git clone --recursive https://github.com/mgunyho/Little-Utils.git
-#[submodule "repos/OrangeLine"]
-#OrangeLine
-	git clone --recursive https://github.com/Stubs42/OrangeLine.git
-#[submodule "repos/PdArray"]
-#PdArray
-	git clone --recursive https://github.com/mgunyho/PdArray.git
-#[submodule "repos/kocmoc"]
-#kocmoc
-	git clone --recursive https://github.com/janne808/kocmoc-rack-modules.git
-#[submodule "repos/MindMeldModular"]
-#MindMeldModular
-	git clone --recursive https://github.com/MarcBoule/MindMeldModular.git
-#[submodule "repos/RacketScience"]
-#RacketScience
-	git clone --recursive https://github.com/ContemporaryInsanity/RacketScience.git
-#[submodule "repos/SA-Seasons"]
-#SA-Seasons
-	git clone --recursive https://github.com/SpektroAudio/Seasons.git
-#[submodule "repos/pfzzz"]
-#pfzzz
-	git clone --recursive https://github.com/pfzzz/rack-plugin.git
-#[submodule "repos/scanner-darkly-collection-one"]
-#scanner-darkly-collection-one
-	git clone --recursive https://github.com/scanner-darkly/vcv-collection-one.git
-#[submodule "repos/MockbaModular"]
-#MockbaModular
-	git clone --recursive https://github.com/MockbaTheBorg/MockbaModular.git
-#[submodule "repos/SurgeRack"]
-#SurgeRack
-	git clone --recursive https://github.com/surge-synthesizer/surge-rack.git
-#[submodule "repos/NEXSwitches"]
-#NEXSwitches
-	git clone --recursive https://github.com/lkdjiin/SwitchesModules.git
-#[submodule "repos/23volts"]
-#23volts
-	git clone --recursive https://github.com/23volts/23volts-vcv.git
-#[submodule "repos/MSM"]
-#MSM
-	git clone --recursive https://github.com/netboy3/MSM-vcvrack-plugin.git
-#[submodule "repos/ReTunesFree"]
-#ReTunesFree
-	git clone --recursive https://github.com/DominoMarama/ReTunesFree.git
-#[submodule "repos/AriaSalvatrice"]
-#AriaSalvatrice
-	git clone --recursive https://github.com/AriaSalvatrice/AriaVCVModules.git
-#[submodule "repos/AuntyLangtonsFree"]
-#AuntyLangtonsFree
-	git clone --recursive https://github.com/64MM4-KN1F3/AuntyLangtons-FREE.git
-#[submodule "repos/Sckitam"]
-#Sckitam
-	git clone --recursive https://github.com/philippesalembier/SckitamVCV.git
-#[submodule "repos/Kosmodules-Free"]
-#Kosmodules-Free
-	git clone --recursive https://github.com/calvinkosmatka/Kosmodules-Free.git
-#[submodule "repos/PS-PurrSoftware"]
-#PS-PurrSoftware
-	git clone --recursive https://github.com/knchaffin/Meander.git
-#[submodule "repos/voxglitch"]
-#voxglitch
-	git clone --recursive https://github.com/clone45/voxglitch.git
-#[submodule "repos/AaronStatic"]
-#AaronStatic
-	git clone --recursive https://github.com/aaronstatic/AaronStatic_modules.git
-
-
-if [ ! -d "$HOME/.Rack" ]; then
-    mkdir $HOME/.Rack 
-    mkdir $HOME/.Rack/plugins-v1 
-fi
-
-for folder in * 
-do
-(
-cd $folder
-make dep $1 -j$JOBS
-make $1 -j$JOBS
-make install
-)
-done
-
-cd ..
+vcvPlugs
 
 # if [ ! -d "Bridge" ]; then
 #     git clone --recursive https://github.com/scrime-u-bordeaux/Bridge.git
@@ -887,7 +400,7 @@ cd ..
 # cd ../../
 
 make -j$JOBS
-sudo mv Rack /usr/bin
+sudo cp Rack /usr/bin/
 cp Core.json ~/.Rack
 cp -r res ~/.Rack
 )
@@ -896,26 +409,22 @@ cp -r res ~/.Rack
 
 arduino() {
 
-if [ ! -e "arduino" ]; then
+if [ -e "arduino" ]; then
     rm -rf arduino
-    wget https://downloads.arduino.cc/arduino-1.8.12-linux64.tar.xz
 fi
 
-if [ ! -e "TeensyduinoInstall.linux64" ]; then
-    rm -rf TeensyduinoInstall.linux64 
-    wget https://www.pjrc.com/teensy/td_151/TeensyduinoInstall.linux64
+if [ -e "TeensyduinoInstall.linux64" ]; then
+    rm -rf TeensyduinoInstall.linux64
     rm -rf 49-teensy.rules
-    wget http://www.pjrc.com/teensy/49-teensy.rules
 fi
 
-if [ ! -e "arduino" ]; then
-    rm -rf arduino
-fi
-
+wget https://downloads.arduino.cc/arduino-1.8.12-linux64.tar.xz
 tar -xJvf arduino-*-linux64.tar.xz -C .
 rm -rf arduino-*-linux64.tar.xz
 mv arduino* arduino
+wget http://www.pjrc.com/teensy/49-teensy.rules
 sudo cp 49-teensy.rules /etc/udev/rules.d/49-teensy.rules
+rm -rf 49-teensy.rules
 
 (
 cd arduino
@@ -923,25 +432,23 @@ cd arduino
 sudo ./install.sh
 )
 
+wget https://www.pjrc.com/teensy/td_151/TeensyduinoInstall.linux64
 chmod +x TeensyduinoInstall.linux64
 
-echo "install Teensyduino in $SRC_DIR/arduin" 
+echo "install Teensyduino in $SRC_DIR/arduino" 
 
 ./TeensyduinoInstall.linux64
+rm -rf TeensyduinoInstall.linux64
 
 }
 
 processing() {
 
-if [ ! -e "processing" ]; then
-    rm -rf processing
-    wget https://download.processing.org/processing-3.5.4-linux64.tgz
-fi
-
-if [ ! -e "processing" ]; then
+if [ -e "processing" ]; then
     rm -rf processing
 fi
 
+wget https://download.processing.org/processing-3.5.4-linux64.tgz
 tar zxvf processing-3.5.4-linux64.tgz -C .
 rm -rf processing-*-linux64.tgz
 mv processing* processing
@@ -959,7 +466,7 @@ if [ ! -d "qtcreator" ]; then
     qt
 fi
 
-if [ ! -d "openframeworks" ]; then
+if [ ! -d "openFrameworks" ]; then
    git clone --recursive https://github.com/openframeworks/openFrameworks.git
 fi
 

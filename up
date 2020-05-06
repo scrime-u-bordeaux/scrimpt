@@ -32,11 +32,10 @@ new() {
 sudo apt install -yy wget apt-transport-https gpgv
 
 cd $REPDIR
-if [ ! -e "kxstudio-repos_10.0.3_all.deb" ]; then
-    wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_10.0.3_all.deb
-fi
 
+wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_10.0.3_all.deb
 sudo dpkg -i kxstudio-repos_10.0.3_all.deb
+rm -rf kxstudio-repos_10.0.3_all.deb
 )
 
 #Remove kxstudio conflicts
@@ -156,6 +155,8 @@ if [ "$1" == "--install" ]; then
     cp ${pwd}renderbinUHJ.sc $HOME/bin
     cp ${pwd}repos $HOME/bin
     chmod +x $HOME/bin/repos
+    cp ${pwd}vcvPlugs $HOME/bin
+    chmod +x $HOME/bin/vcvPlugs
     
     new	
     
