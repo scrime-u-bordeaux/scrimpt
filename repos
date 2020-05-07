@@ -246,7 +246,7 @@ sudo make install
 ardour() {
 
 sudo apt -y purge ardour
-sudo apt -y python install libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
+sudo apt -y install python libgtkmm-2.4-dev autotools-dev cdbs dh-buildinfo devscripts libarchive-dev libaubio-dev libboost-dev libcppunit-dev libcurl3-gnutls libcurl4-gnutls-dev libglibmm-2.4-dev liblo-dev liblrdf0-dev libraptor2-dev librubberband-dev libsamplerate0-dev libsratom-dev libserd-dev libsord-dev libtag1-dev libcwiid-dev libxml2-dev itstool vamp-plugin-sdk
 
 if [ ! -d "ardour" ]; then
     git clone --recursive https://github.com/ardour/ardour.git
