@@ -285,7 +285,7 @@ sudo bash ./install-linux.sh
 guido() {
 
 if [ ! -d guidolib ]; then
-    git clone https://github.com/grame-cncm/guidolib.git 
+    git clone --reursive https://github.com/grame-cncm/guidolib.git 
 fi
 
 (
@@ -328,6 +328,10 @@ sudo make install
 
 inscore() {
 
+if [ ! -d guidolib ]; then
+    guido
+fi
+
 if [ ! -d "inscore" ]; then
     git clone --recursive https://github.com/grame-cncm/inscore.git
 fi
@@ -336,7 +340,7 @@ fi
 cd inscore
 
 cd build 
-PREFIX=$SRC_DIR/Qt/gcc_64 make -j$JOBS
+make QMAKE=$SRC_DIR/Qt/gcc_64/bin/qmake -j$JOBS
 sudo mv bin/inscoreviewer /usr/bin
 sudo mv bin/lib* /usr/lib
 )
@@ -345,8 +349,6 @@ sudo mv bin/lib* /usr/lib
 
 osc() {
 
-# sudo snap install --edge node 
-# sudo snap install chromium --classic
 sudo apt install nodejs npm --edge
 
 if [ ! -d "open-stage-control" ]; then
@@ -767,7 +769,6 @@ if [ "$1" == "--all" ]; then
     supercollider
     ardour
     zyn
-    guido
     inscore
     osc
     rack
