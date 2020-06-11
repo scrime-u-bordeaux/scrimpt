@@ -6,7 +6,7 @@
 
 2. Installation:
 
- We recomend you install these sripts on the most recent version of your chosen Ubuntu based distribution. We also recomend you turn on the developpement option in you update manager.
+ We recomend you install these sripts on the most recent version of your chosen Ubuntu based distribution. We also recomend you turn on the developpement option in your update manager.
  
  * Make sure you have git installed <br />
  ```sudo apt install git``` <br />
