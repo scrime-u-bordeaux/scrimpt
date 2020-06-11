@@ -1,23 +1,32 @@
-# up-debian_ubuntu_update_tool
-
+# SCRIMPT (scripts from [SCRIME](https://scrime.u-bordeaux.fr/))
 
 1. Description:
 
- Up is a tool that automates the update procedure for Debian and Ubuntu based
- Linux systems.
+ Automated update for Debian based systems with aditional audiovisual bundles
 
 2. Installation:
 
- Unzip the "up" bash script from the zip archive and move it to either
- /usr/local/bin or ~/bin. You can either do this from a command line or simply
- drag the file out of Archive Manager to wherever you'd like it to go.
-
- Note: scripts that are run from the ~/bin directory cannot be prefixed with
- 'sudo' as the system will fail to find them. Those who intend to run up from
- a script for cron, anacron or systemd timers should place it in /usr/local/bin
- This is also the best practice if there are more than one administrator
- accounts on the machine.
-
+ We recomend you install these sripts on the most recent version of your chosen Ubuntu based distribution. We also recomend you turn on the developpement option in you update manager.
+ 
+ * Make sure you have git installed <br />
+ ```sudo apt install git``` <br />
+ * Choose a place to clone this repository and clone it with <br />
+ ```git clone https://github.com/scrime-u-bordeaux/scrimpt.git``` <br />
+ * cd into it <br />
+ ```cd scrimpt``` <br />
+ * Install it locally with  <br />
+ ```./up --install``` <br />
+ This will create a ```bin``` directory in your ```HOME``` if it dose'nt yet exist, donload and add the [kxstudio repository](https://kx.studio/Repositories), as well as compile and install Fonz Adriensen [utilities for use with Aliki](https://escuta.org/en/proj/research/ambiresources/item/227-making-impulse-responses-with-aliki.html) and Iain Mott's [binaural and UHJ render script](https://escuta.org/en/proj/research/ambiresources/item/229-b-format-to-binaural-uhj-stereo.html). the kxstudio repository adddition is sometimes error prone, altho if the first install fails, running the comand a second time often does the trick.
+ * If you dind't have a ```bin``` directory in your ```HOME``` you will need to log out and back in for the scripts to be accessible from comand line. If evrything went well, you can now simply call ```up``` ```repos <program> <jobs>```
+ ```bformat2ald``` or ```renderbinauralUHJ``` from the comand line. 
+ * You can for exemple build and install ossia-score with <br />
+ ```repos --score 8``` <br />
+ You can also combine ```up``` and ```repos``` to make sure that a full upgrande is performed before the build, ie. <br />
+ ```up --repos --ossia 8``` <br />
+ The entire list of repository cen also be built with <br />
+ ```repos --all 8``` <br />
+ This will take a long while and require to enter your admin password a few times. make sure you give it as many jobs as possible with last argument (8 here). 
+ 
 3. License.
 
  Up is free software. You can redistribute it and/or modify it under the
