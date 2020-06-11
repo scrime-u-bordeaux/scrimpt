@@ -170,18 +170,9 @@ supercollider() {
 sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev \
 #libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libboost-test-dev
 
-if [ ! -d "wsclang" ]; then
-    git clone --recursive https://github.com/pchdev/wsclang.git
+if [ ! -d "supercollider" ]; then
+    git clone --recursive https://github.com/scrime-u-bordeaux/supercollider.git
 fi
-
-(
-cd wsclang
-
-yes | cp -rf overwrites/lang/CMakeLists.txt dependencies/supercollider/lang
-yes | cp -rf overwrites/lang/LangPrimSource/OSCData.cpp dependencies/supercollider/lang/LangPrimSource
-yes | cp -rf overwrites/lang/LangPrimSource/PyrPrimitive.cpp dependencies/supercollider/lang/LangPrimSource
-yes | cp -rf sclang/wsclang dependencies/supercollider/SCClassLibrary/Common
-)
 
 (
 cd $BUILD_DIR
@@ -192,7 +183,7 @@ fi
 
 cd supercollider
 
-cmake $SRC_DIR/wsclang/dependencies/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release 
+cmake $SRC_DIR/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release 
 make -j$JOBS
 sudo make install
 )
@@ -203,8 +194,8 @@ sc3-plugins
  
 sc3-plugins() {
 
-if [ ! -d "sc3-pluginsHOA" ]; then
-    git clone --recursive https://github.com/scrime-u-bordeaux/sc3-pluginsHOA.git
+if [ ! -d "sc3-plugins" ]; then
+    git clone --recursive https://github.com/thibaudk/sc3-plugins.git
 fi
 
 if [ ! -d "adt" ]; then
@@ -230,13 +221,13 @@ fi
 (
 cd $BUILD_DIR
 
-if [ ! -d "sc3-pluginsHOA" ]; then
-   mkdir sc3-pluginsHOA
+if [ ! -d "sc3-plugins" ]; then
+   mkdir sc3-plugins
 fi
 
 cd sc3-pluginsHOA
 
-cmake $SRC_DIR/sc3-pluginsHOA -DSC_PATH=$SRC_DIR/wsclang/dependencies/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0
+cmake $SRC_DIR/sc3-pluginsHOA -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0
 make -j$JOBS
 sudo make install
 )
