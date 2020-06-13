@@ -653,6 +653,23 @@ less << _EOF_
     Running "repos" with no options will not do anything.
 
     repos --help = shows this help page.
+    repos --help = shows this help page.
+    repos --score <jobs> = build and install ossia score
+    repos --ossia <jobs> = build and install ossia bindings for Pure data and openFrameworks
+    repos --qt = install the latest Qt version with qtcreator
+    repos --faust <jobs> = build and install the Faust programing langage
+    repos --of <jobs> = build and install openFrameworks
+    repos --supercollider <jobs> = build and install the Supercollider langage
+    repos --sc3-plugins <jobs> = build and install plugins for Supercollider
+    repos --ardour <jobs> = build and install the Ardour editor
+    repos --zyn = = build and install the Zyn fusion synth
+    repos --inscore <jobs> = build and install INscore and Gudio
+    repos --osc = build and install open stage control insterfaces
+    repos --rack <jobs> = build and install VCV Rack application and plugins
+    repos --arduino = install the Arduino IDE with Teensy support
+    repos --processing = install the processing IDE
+    repos --pull pull all repositories
+    repos --pull = pulls every repository and clears out build directory.
     repos --pull = pulls every repository and clears out build directory.
     
  By Joe Collins www.ezeelinux.com (GNU/General Public License version 2.0)
