@@ -1,10 +1,10 @@
 # SCRIMPT (scripts from [SCRIME](https://scrime.u-bordeaux.fr/))
 
-1. Description:
+### Description:
 
  Automated update for Debian based systems with aditional audiovisual bundles
 
-2. Installation:
+### Installation:
 
  We recomend you install these sripts on the most recent version of your chosen Ubuntu based distribution. We also recomend you turn on the developpement option in your update manager.
  
@@ -27,14 +27,32 @@
  ```repos --all 8``` <br />
  This will take a long while and require to enter your admin password a few times. make sure you give it as many jobs as possible with last argument (8 here). 
  
-3. License.
+### Instalable repositories.
+
+ * ```repos --score <jobs>``` [ossia score](https://github.com/OSSIA/score)
+ * ```repos --ossia <jobs>``` [ossia](https://github.com/OSSIA/libossia) bindings for Pure data and openFrameworks
+ * ```repos --qt``` latest [Qt](https://github.com/miurahr/aqtinstall) version with [qtcreator](https://download.qt.io/official_releases/qtcreator/4.12/4.12.0/installer_source/linux_gcc_64_rhel72/)
+ * ```repos --faust <jobs>``` [Faust](https://github.com/grame-cncm/faust) programing langage
+ * ```repos --of <jobs>``` [openFrameworks](https://github.com/openframeworks/openFrameworks)
+ * ```repos --supercollider <jobs>``` the [Supercollider](https://github.com/supercollider/supercollider) langage
+ * ```repos --sc3-plugins <jobs>``` plugins for [Supercollider](https://github.com/supercollider/sc3-plugins)
+ * ```repos --ardour <jobs>``` [Ardour editor](https://github.com/Ardour/ardour)
+ * ```repos --zyn``` [Zyn fusion synth](recursive https://github.com/zynaddsubfx/zyn-fusion-build.git)
+ * ```repos --inscore <jobs>``` [INscore and Gudio](https://github.com/grame-cncm/inscore.git) scripted score
+ * ```repos --osc``` [open stage control](https://github.com/grame-cncm/inscore.git) insterfaces
+ * ```repos --rack <jobs>``` [VCV Rack](https://github.com/VCVRack/Rack.git) application and plugins
+ * ```repos --arduino``` the [Arduino](https://github.com/VCVRack/Rack.git) IDE with Teensy support
+ * ```repos --processing``` the [processing](https://download.processing.org/processing-3.5.4-linux64.tgz) IDE
+ * ```repos --pull``` pull all repositories
+
+### License.
 
  Up is free software. You can redistribute it and/or modify it under the
  terms of the GNU General Public License Version 2.0. as published by
  the Free Software Foundation. A copy of the GNU GPL 2.0 is provided with the
  software.
 
-4. Contents of Help Page:
+### Contents of Help Page:
 
  Up -- Debian/Ubuntu Update Tool (Version 1.2)  -help
 
