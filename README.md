@@ -37,7 +37,7 @@
  * ```repos --supercollider <jobs>``` the [Supercollider](https://github.com/supercollider/supercollider) langage
  * ```repos --sc3-plugins <jobs>``` plugins for [Supercollider](https://github.com/supercollider/sc3-plugins)
  * ```repos --ardour <jobs>``` [Ardour editor](https://github.com/Ardour/ardour)
- * ```repos --zyn``` [Zyn fusion synth](recursive https://github.com/zynaddsubfx/zyn-fusion-build.git)
+ * ```repos --zyn``` [Zyn fusion](https://github.com/zynaddsubfx/zyn-fusion-build.git) synth
  * ```repos --inscore <jobs>``` [INscore and Gudio](https://github.com/grame-cncm/inscore.git) scripted score
  * ```repos --osc``` [open stage control](https://github.com/grame-cncm/inscore.git) insterfaces
  * ```repos --rack <jobs>``` [VCV Rack](https://github.com/VCVRack/Rack.git) application and plugins
