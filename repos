@@ -126,6 +126,9 @@ cd openFrameworks/addons
 if [ ! -d "ofxOscQuery" ]; then
    git clone --recursive https://github.com/bltzr/ofxOscQuery.git
 fi
+
+sudo cp ofxKinect/libs/libfreenect/platform/linux/udev/51-kinect.rules /etc/udev/rules.d
+sudo adduser $USER video
 )
 
 (
