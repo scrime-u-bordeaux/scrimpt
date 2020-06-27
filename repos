@@ -126,9 +126,6 @@ cd openFrameworks/addons
 if [ ! -d "ofxOscQuery" ]; then
    git clone --recursive https://github.com/bltzr/ofxOscQuery.git
 fi
-
-sudo cp ofxKinect/libs/libfreenect/platform/linux/udev/51-kinect.rules /etc/udev/rules.d
-sudo adduser $USER video
 )
 
 (
@@ -469,7 +466,12 @@ if [ ! -d "openFrameworks" ]; then
 fi
 
 (
-cd openFrameworks/scripts/linux/ubuntu
+cd openFrameworks/
+
+sudo cp addons/libs/libfreenect/platform/linux/udev/51-kinect.rules /etc/udev/rules.d
+sudo adduser $USER video
+
+cd scripts/linux/ubuntu
 
 sudo apt install -yy libc6 qbs libmpg123-dev
 yes | sudo ./install_dependencies.sh
