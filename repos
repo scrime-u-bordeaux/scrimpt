@@ -228,9 +228,9 @@ if [ ! -d "sc3-plugins" ]; then
    mkdir sc3-plugins
 fi
 
-cd sc3-pluginsHOA
+cd sc3-plugins
 
-cmake $SRC_DIR/sc3-pluginsHOA -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0
+cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0
 make -j$JOBS
 sudo make install
 )
