@@ -17,15 +17,21 @@ dpkg -l | grep -qw less || sudo apt install less -yyq
 
 set -e
 
+# Functions:
+
+new() {
+
 if [ ! -d "$HOME/Documents/repos" ]; then
     mkdir "$HOME/Documents/repos"
 fi
 
 export REPDIR="$HOME/Documents/repos"
 
-# Functions:
+if [ ! -d "$HOME/Documents/proj" ]; then
+    mkdir "$HOME/Documents/proj"
+fi
 
-new() {
+export PROJDIR="$HOME/Documents/proj"
 
 #kxstudio packages
 (
@@ -36,6 +42,19 @@ cd $REPDIR
 wget https://launchpad.net/~kxstudio-debian/+archive/kxstudio/+files/kxstudio-repos_10.0.3_all.deb
 sudo dpkg -i kxstudio-repos_10.0.3_all.deb
 rm -rf kxstudio-repos_10.0.3_all.deb
+)
+
+#sfizz
+(
+echo 'deb http://download.opensuse.org/repositories/home:/sfztools:/sfizz/xUbuntu_19.10/ /' | sudo tee /etc/apt/sources.list.d/home:sfztools:sfizz.list
+curl -fsSL https://download.opensuse.org/repositories/home:sfztools:sfizz/xUbuntu_19.10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home:sfztools:sfizz.gpg > /dev/null
+
+cd $PROJDIR
+
+wget http://virtualplaying.com/go/virtual-playing-orchestra-v3-2-1-1-performance-scripts
+mv virtual-playing-orchestra-v3-2-1-1-performance-scripts virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
+unzip virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
+rm -rf virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
 )
 
 #Remove kxstudio conflicts
