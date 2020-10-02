@@ -1,5 +1,9 @@
 #!/bin/bash
 
+export QT_VERSION=5.15.1
+export QT_CREATOR_VERSION=4.12
+export QT_CREATOR_SUB_VERSION=1
+
 export SRC_DIR="$HOME/Documents/repos"
 export BUILD_DIR="$HOME/Documents/build"
 export JOBS=1
@@ -16,8 +20,16 @@ sudo apt -y install python3-pip python3.8 p7zip-full
 python3.8 -m pip install aqtinstall
 
 if [ ! -d "Qt" ]; then
-    python3.8 -m aqt install 5.15.0 linux desktop -m qtwebengine
-    mv 5.15.0 Qt
+    python3.8 -m aqt install $QT_VERSION linux desktop -m qtwebengine 
+    mv $QT_VERSION Qt
+fi
+
+if [ ! -d "qtshadertools" ]; then
+    git clone --recursive https://github.com/jcelerier/qtshadertools.git
+    (       
+        cd qtshadertools
+        $SRC_DIR/Qt/gcc_64/bin/qmake && make && install
+    )   
 fi
 
 #wget mirrors.ukfast.co.uk/sites/qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5142/#qt.qt5.5142.qtwebengine.gcc_64/5.14.2-0-202003291222qtwebengine-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-#X86_64.7z
@@ -28,7 +40,7 @@ if [ ! -d "qtcreator" ]; then
     mkdir qtcreator
     (
         cd qtcreator
-        wget https://download.qt.io/official_releases/qtcreator/4.12/4.12.0/installer_source/linux_gcc_64_rhel72/qtcreator.7z
+        wget https://download.qt.io/official_releases/qtcreator/$QT_CREATOR_VERSION/$QT_CREATOR_VERSION.$QT_CREATOR_SUB_VERSION/installer_source/linux_gcc_64_rhel72/qtcreator.7z
         7z x qtcreator.7z
         rm -rf qtcreator.7z
     )
@@ -83,6 +95,10 @@ if [ ! -d "Qt" ]; then
     qt
 fi
 
+if [ ! -d "faust" ]; then
+    faust
+fi
+
 if [ ! -d "score" ]; then
     git clone --recursive https://github.com/OSSIA/score.git 
 fi
@@ -101,7 +117,7 @@ fi
 cd score
 
 cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DSCORE_CONFIGURATION=static-release -DPORTAUDIO_ONLY_DYNAMIC=1 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
-make all_unity -j$JOBS
+make -j$JOBS
 rm -rf *.deb
 cpack
 sudo dpkg -i *.deb
@@ -486,6 +502,9 @@ cd ../qtcreator/
 
 repos_pull ()
 {
+
+python3.8 -m pip install aqtinstall --upgrade
+
     (
         cd $BUILD_DIR
         rm -rf *
