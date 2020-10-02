@@ -6,7 +6,7 @@ export QT_CREATOR_SUB_VERSION=1
 
 export SRC_DIR="$HOME/Documents/repos"
 export BUILD_DIR="$HOME/Documents/build"
-export JOBS=1
+export EXTRA_ARGS=-j1
 
 cd $SRC_DIR
 
@@ -28,7 +28,8 @@ if [ ! -d "qtshadertools" ]; then
     git clone --recursive https://github.com/jcelerier/qtshadertools.git
     (       
         cd qtshadertools
-        $SRC_DIR/Qt/gcc_64/bin/qmake && make && install
+        $SRC_DIR/Qt/gcc_64/bin/qmake && make $EXTRA_ARGS
+        make install
     )   
 fi
 
@@ -81,7 +82,7 @@ fi
 cd faust
 
 cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
-make -j$JOBS
+make $EXTRA_ARGS
 sudo make install
 )
 
@@ -117,7 +118,7 @@ fi
 cd score
 
 cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DSCORE_CONFIGURATION=static-release -DPORTAUDIO_ONLY_DYNAMIC=1 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
-make -j$JOBS
+make $EXTRA_ARGS
 rm -rf *.deb
 cpack
 sudo dpkg -i *.deb
@@ -154,7 +155,7 @@ fi
 cd ossia-cpp
 
 cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
-make -j$JOBS
+make $EXTRA_ARGS
 
  if [ ! -d "$SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/" ]; then
      mkdir -p $SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/
@@ -176,7 +177,7 @@ fi
 cd ossia-pd
  
 cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_PD_ONLY=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
-make -j$JOBS
+make $EXTRA_ARGS
 make install
 )
 }
@@ -200,7 +201,7 @@ fi
 cd supercollider
 
 cmake $SRC_DIR/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release 
-make -j$JOBS
+make $EXTRA_ARGS
 sudo make install
 )
 
@@ -244,7 +245,7 @@ fi
 cd sc3-plugins
 
 cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0
-make -j$JOBS
+make $EXTRA_ARGS
 sudo make install
 )
 
@@ -263,7 +264,7 @@ fi
 cd ardour
 
 ./waf configure --freedesktop --lxvst --lv2 --ptformat --nls --optimize --with-backend=alsa,jack,dummy 
-./waf build -j$JOBS
+./waf build $EXTRA_ARGS
 sudo ./waf install
 ./tools/videotimeline/install_video_tools.sh 
 )
@@ -282,7 +283,7 @@ fi
 cd zyn-fusion-build
 
 ruby build-linux.rb
-tar -jxvf zyn-fusion-linux-64bit-3.0.3-patch1-release.tar.bz2
+tar xvf zyn-fusion-linux-64bit-3.0.3-patch1-release.tar.bz2
 cd zyn-fusion
 sudo bash ./install-linux.sh
 )
@@ -307,7 +308,7 @@ fi
 cd guidolib
 
 cmake $SRC_DIR/guidolib/build -DGL=0 -DSTATICLIB=1 -DCMAKE_BUILD_TYPE=release
-make -j$JOBS
+make $EXTRA_ARGS
 sudo make install
 )
 
@@ -327,7 +328,7 @@ fi
 cd guidoar
 
 cmake $SRC_DIR/guidoar/build -DCMAKE_BUILD_TYPE=release
-make -j$JOBS
+make $EXTRA_ARGS
 sudo make install
 )
 
@@ -347,7 +348,7 @@ fi
 cd inscore
 
 cd build 
-make QMAKE=$SRC_DIR/Qt/gcc_64/bin/qmake -j$JOBS
+make QMAKE=$SRC_DIR/Qt/gcc_64/bin/qmake $EXTRA_ARGS
 sudo mv bin/inscoreviewer /usr/bin
 sudo mv bin/lib* /usr/lib
 )
@@ -389,7 +390,7 @@ fi
 (
 cd Rack
 
-make dep -j$JOBS
+make dep $EXTRA_ARGS
 
 vcvPlugs
 
@@ -405,12 +406,12 @@ vcvPlugs
 #     mv vstsdk2.4 VST2_SDK
 # fi
 # 
-# make dist -j$JOBS
+# make dist $EXTRA_ARGS
 # sudo make install
 # 
 # cd ../../
 
-make -j$JOBS
+make $EXTRA_ARGS
 sudo cp Rack /usr/bin/
 cp Core.json ~/.Rack
 cp -r res ~/.Rack
@@ -493,8 +494,8 @@ sudo apt install -yy libc6 qbs libmpg123-dev
 yes | sudo ./install_dependencies.sh
 cd ../
 ./download_libs.sh
-./compileOF.sh -j$JOBS
-./compilePG.sh -j$JOBS
+./compileOF.sh $EXTRA_ARGS
+./compilePG.sh $EXTRA_ARGS
 cd ../qtcreator/
 ./install_template.sh
 )
@@ -716,7 +717,7 @@ _EOF_
 }
 
 if [ ! -z "$2" ]; then 
-    JOBS=$2
+    EXTRA_ARGS=$2
 fi
 
 if [ "$1" == "--qt" ]; then
@@ -739,7 +740,7 @@ if [ "$1" == "--ossia" ]; then
     exit
 fi
 
-if [ "$1" == "--supercollider" ]; then
+if [ "$1" == "--sc" ]; then
     supercollider
     exit
 fi
