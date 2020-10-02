@@ -51,10 +51,12 @@ curl -fsSL https://download.opensuse.org/repositories/home:sfztools:sfizz/xUbunt
 
 cd $PROJDIR
 
-wget http://virtualplaying.com/go/virtual-playing-orchestra-v3-2-1-1-performance-scripts
-mv virtual-playing-orchestra-v3-2-1-1-performance-scripts virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
-unzip virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
-rm -rf virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
+if [ ! -d "Virtual-Playing-Orchestra3" ]; then
+    wget http://virtualplaying.com/go/virtual-playing-orchestra-v3-2-1-1-performance-scripts
+    mv virtual-playing-orchestra-v3-2-1-1-performance-scripts virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
+    unzip virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
+    rm -rf virtual-playing-orchestra-v3-2-1-1-performance-scripts.zip
+fi
 )
 
 #Remove kxstudio conflicts
