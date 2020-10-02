@@ -119,9 +119,6 @@ cd score
 
 cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DSCORE_CONFIGURATION=static-release -DPORTAUDIO_ONLY_DYNAMIC=1 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 make $EXTRA_ARGS
-rm -rf *.deb
-cpack
-sudo dpkg -i *.deb
 )
  
 }
