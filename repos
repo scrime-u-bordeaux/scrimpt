@@ -272,25 +272,6 @@ sudo ./waf install
 
 }
 
-zyn() {
-
-sudo apt -y install ruby libtool libmxml-dev automake libz-dev mesa-common-dev libgl1-mesa-dev libfontconfig1-dev bison
-
-if [ ! -d "zyn-fusion-build" ]; then
-    git clone --recursive https://github.com/zynaddsubfx/zyn-fusion-build.git
-fi
-
-(
-cd zyn-fusion-build
-
-ruby build-linux.rb
-tar xvf zyn-fusion-linux-64bit-3.0.3-patch1-release.tar.bz2
-cd zyn-fusion
-sudo bash ./install-linux.sh
-)
-
-}
-
 guido() {
 
 if [ ! -d guidolib ]; then
@@ -580,15 +561,6 @@ python3.8 -m pip install aqtinstall --upgrade
         fi
     )
     
-    # zyn
-    (
-        if [ -d "zyn-fusion-build" ]; then
-            cd zyn-fusion-build
-            git pull
-            git submodule update --init --recursive
-        fi
-    )
-    
     # guido
     (
         if [ -d "guidolib" ]; then
@@ -688,7 +660,6 @@ less << _EOF_
     repos --supercollider <jobs> = build and install the Supercollider langage
     repos --sc3-plugins <jobs> = build and install plugins for Supercollider
     repos --ardour <jobs> = build and install the Ardour editor
-    repos --zyn = = build and install the Zyn fusion synth
     repos --inscore <jobs> = build and install INscore and Gudio
     repos --osc = build and install open stage control insterfaces
     repos --rack <jobs> = build and install VCV Rack application and plugins
@@ -756,11 +727,6 @@ if [ "$1" == "--ardour" ]; then
     exit
 fi
 
-if [ "$1" == "--zyn" ]; then
-    zyn
-    exit
-fi
-
 if [ "$1" == "--guido" ]; then
     guido
     exit
@@ -802,7 +768,6 @@ if [ "$1" == "--all" ]; then
     ossia
     supercollider
     ardour
-    zyn
     inscore
     osc
     rack
