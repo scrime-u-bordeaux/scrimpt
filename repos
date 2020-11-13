@@ -121,7 +121,7 @@ fi
 
 cd score
 
-cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DSCORE_CONFIGURATION=static-release -DPORTAUDIO_ONLY_DYNAMIC=1 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 make $EXTRA_ARGS
 )
  
@@ -467,7 +467,7 @@ fi
 (
 cd openFrameworks/
 
-sudo cp addons/libs/libfreenect/platform/linux/udev/51-kinect.rules /etc/udev/rules.d
+sudo cp addons/ofxKinect/libs/libfreenect/platform/linux/udev/51-kinect.rules /etc/udev/rules.d
 sudo adduser $USER video
 
 cd scripts/linux/ubuntu
