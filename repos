@@ -85,7 +85,7 @@ fi
 
 cd faust
 
-cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
+cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
 make $EXTRA_ARGS
 sudo make install
 )
@@ -121,7 +121,7 @@ fi
 
 cd score
 
-cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 make $EXTRA_ARGS
 )
  
@@ -155,7 +155,7 @@ fi
 (
 cd ossia-cpp
 
-cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_CPP_ONLY=1 -DOSSIA_STATIC=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 
  if [ ! -d "$SRC_DIR/openFrameworks/addons/ofxOscQuery/libs/ossia/lib/linux64/" ]; then
@@ -177,7 +177,7 @@ fi
  
 cd ossia-pd
  
-cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_PD_ONLY=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+cmake $SRC_DIR/score/3rdparty/libossia -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DOSSIA_PD_ONLY=1 -DOSSIA_PROTOCOL_ARTNET=0 -DOSSIA_PROTOCOL_AUDIO=0 -DOSSIA_PROTOCOL_JOYSTICK=0 -DOSSIA_PROTOCOL_WIIMOTE=0 -DOSSIA_PD_INSTALL_FOLDER=${HOME}/Documents/Pd/externals/ossia -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 make install
 )
@@ -201,7 +201,7 @@ fi
 
 cd supercollider
 
-cmake $SRC_DIR/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release 
+cmake $SRC_DIR/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 sudo make install
 )
@@ -245,7 +245,7 @@ fi
 
 cd sc3-plugins
 
-cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0
+cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 sudo make install
 )
@@ -289,7 +289,7 @@ fi
 
 cd guidolib
 
-cmake $SRC_DIR/guidolib/build -DGL=0 -DSTATICLIB=1 -DCMAKE_BUILD_TYPE=release
+cmake $SRC_DIR/guidolib/build -DGL=0 -DSTATICLIB=1 -DCMAKE_BUILD_TYPE=release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 sudo make install
 )
@@ -309,7 +309,7 @@ fi
 
 cd guidoar
 
-cmake $SRC_DIR/guidoar/build -DCMAKE_BUILD_TYPE=release
+cmake $SRC_DIR/guidoar/build -DCMAKE_BUILD_TYPE=release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 sudo make install
 )
