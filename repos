@@ -121,7 +121,7 @@ fi
 
 cd score
 
-cmake $SRC_DIR/score -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+cmake $SRC_DIR/score -DSCORE_PCH=1 -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 make $EXTRA_ARGS
 )
  
@@ -187,6 +187,10 @@ supercollider() {
 
 sudo apt -y install libavahi-client-dev libicu-dev libreadline6-dev libxt-dev \
 #libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev libboost-test-dev
+#Arch
+#sudo pacman -S libsamplerate libsndfile alsa-lib avahi readline fftw libudev0-shim ncurses
+#sudo sh -c "echo @audio - memlock 256000 >> /etc/security/limits.conf"
+#sudo sh -c "echo @audio - rtprio 75 >> /etc/security/limits.conf"
 
 if [ ! -d "supercollider" ]; then
     git clone --recursive https://github.com/scrime-u-bordeaux/supercollider.git
@@ -201,7 +205,9 @@ fi
 
 cd supercollider
 
-cmake $SRC_DIR/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
+cmake $SRC_DIR/supercollider -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_BUILD_TYPE=Release \
+#-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang \
+-DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 sudo make install
 )
@@ -767,7 +773,7 @@ if [ "$1" == "--all" ]; then
     score
     ossia
     supercollider
-    ardour
+    #ardour
     inscore
     osc
     rack
