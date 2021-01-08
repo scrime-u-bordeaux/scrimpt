@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export QT_VERSION=5.15.1
-export QT_CREATOR_VERSION=4.12
-export QT_CREATOR_SUB_VERSION=1
+#export QT_CREATOR_VERSION=4.12
+#export QT_CREATOR_SUB_VERSION=1
 
 export ARDUINO_VERSION=1.8.13
 export TEENSYDUINO_VERSION=153
@@ -20,7 +20,7 @@ fi
 
 qt() {
 
-sudo apt -y install python3-pip python3.8 p7zip-full
+sudo apt -y install python3-pip python3.8 p7zip-full qtcreator
 python3.8 -m pip install aqtinstall
 
 if [ ! -d "Qt" ]; then
@@ -41,15 +41,15 @@ fi
 
 #7z x 5.14.2-0-202003291222qtwebengine-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64.7z
 
-if [ ! -d "qtcreator" ]; then
-    mkdir qtcreator
-    (
-        cd qtcreator
-        wget https://download.qt.io/official_releases/qtcreator/$QT_CREATOR_VERSION/$QT_CREATOR_VERSION.$QT_CREATOR_SUB_VERSION/installer_source/linux_gcc_64_rhel72/qtcreator.7z
-        7z x qtcreator.7z
-        rm -rf qtcreator.7z
-    )
-fi
+# if [ ! -d "qtcreator" ]; then
+#     mkdir qtcreator
+#     (
+#         cd qtcreator
+#         wget https://download.qt.io/official_releases/qtcreator/$QT_CREATOR_VERSION/$QT_CREATOR_VERSION.$QT_CREATOR_SUB_VERSION/installer_source/linux_gcc_64_rhel72/qtcreator.7z
+#         7z x qtcreator.7z
+#         rm -rf qtcreator.7z
+#     )
+# fi
 
 }
 
@@ -345,7 +345,7 @@ sudo mv bin/lib* /usr/lib
 
 osc() {
 
-sudo apt install nodejs npm --edge
+sudo apt install nodejs npm
 
 if [ ! -d "open-stage-control" ]; then
     git clone https://github.com/jean-emmanuel/open-stage-control.git
@@ -775,8 +775,8 @@ if [ "$1" == "--all" ]; then
     supercollider
     #ardour
     inscore
-    osc
-    rack
+    #osc
+    #rack
     arduino
     processing
     of
