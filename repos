@@ -94,7 +94,7 @@ sudo make install
 
 score() {
 
-sudo apt -y install libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libbluetooth-dev libclang-dev
+sudo apt -y install libportmidi0 libasound-dev mesa-common-dev libavahi-compat-libdnssd-dev lilv-utils libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev libbluetooth-dev libclang-dev llvm-dev libvulkan-dev
 
 if [ ! -d "Qt" ]; then
     qt
