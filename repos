@@ -251,7 +251,7 @@ fi
 
 cd sc3-plugins
 
-cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DLADSPA=0 -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
+cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DSUPERNOVA=ON -DLADSPA=0 #-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
 make $EXTRA_ARGS
 sudo make install
 )
