@@ -1,12 +1,12 @@
 #!/bin/bash
 
-export QT_VERSION=5.15.1
-#export QT_CREATOR_VERSION=4.12
-#export QT_CREATOR_SUB_VERSION=1
-
 export ARDUINO_VERSION=1.8.13
 export TEENSYDUINO_VERSION=153
 export PROCESSING_VERSION=3.5.4
+
+#export QT_VERSION=5.15.1
+#export QT_CREATOR_VERSION=4.12
+#export QT_CREATOR_SUB_VERSION=1
 
 export SRC_DIR="$HOME/Documents/repos"
 export BUILD_DIR="$HOME/Documents/build"
@@ -20,19 +20,22 @@ fi
 
 qt() {
 
-sudo apt -y install python3-pip python3.8 p7zip-full qtcreator
-python3.8 -m pip install aqtinstall
+#sudo apt -y install python3-pip python3.8 p7zip-full 
+#python3.8 -m pip install aqtinstall
 
-if [ ! -d "Qt" ]; then
-    python3.8 -m aqt install $QT_VERSION linux desktop -m qtwebengine 
-    mv $QT_VERSION Qt
-fi
+sudo apt -y install qtcreator qtbase5-dev qtdeclarative5-dev qtbase5-private-dev qtdeclarative5-private-dev libqt5websockets5-dev libqt5serialport5-dev
+
+# if [ ! -d "Qt" ]; then
+#     python3.8 -m aqt install $QT_VERSION linux desktop -m qtwebengine 
+#     mv $QT_VERSION Qt
+# fi
 
 if [ ! -d "qtshadertools" ]; then
     git clone --recursive https://github.com/jcelerier/qtshadertools.git
     (       
         cd qtshadertools
-        $SRC_DIR/Qt/gcc_64/bin/qmake && make $EXTRA_ARGS
+        #$SRC_DIR/Qt/gcc_64/bin/qmake && make $EXTRA_ARGS
+        qmake && make $EXTRA_ARGS
         make install
     )   
 fi
@@ -85,7 +88,7 @@ fi
 
 cd faust
 
-cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
+cmake -C $SRC_DIR/faust/build/backends/llvm.cmake -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DLC=/usr/bin/llvm-config -DINCLUDE_STATIC=1 -DINCLUDE_OSC=1 -DINCLUDE_HTTP=1 -DINCLUDE_EXECUTABLE=1 $SRC_DIR/faust/build 
 make $EXTRA_ARGS
 sudo make install
 )
@@ -121,7 +124,9 @@ fi
 
 cd score
 
-cmake $SRC_DIR/score -DSCORE_PCH=1 -DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+cmake $SRC_DIR/score -DSCORE_PCH=1 \
+#-DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 
+-DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 make $EXTRA_ARGS
 )
  
@@ -251,7 +256,7 @@ fi
 
 cd sc3-plugins
 
-cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DSUPERNOVA=ON -DLADSPA=0 #-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native
+cmake $SRC_DIR/sc3-plugins -DSC_PATH=$SRC_DIR/supercollider -DCMAKE_BUILD_TYPE=Release -DSUPERNOVA=ON -DLADSPA=0 -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native #-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang 
 make $EXTRA_ARGS
 sudo make install
 )
