@@ -36,7 +36,7 @@ if [ ! -d "qtshadertools" ]; then
         cd qtshadertools
         #$SRC_DIR/Qt/gcc_64/bin/qmake && make $EXTRA_ARGS
         qmake && make $EXTRA_ARGS
-        make install
+        sudo make install
     )   
 fi
 
