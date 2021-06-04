@@ -124,9 +124,8 @@ fi
 
 cd score
 
-cmake $SRC_DIR/score -DSCORE_PCH=1 \
+cmake $SRC_DIR/score -DSCORE_PCH=1 -DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 #-DCMAKE_PREFIX_PATH=$SRC_DIR/Qt/gcc_64 
--DCMAKE_CXX_FLAGS=-march=native -DCMAKE_C_FLAGS=-march=native -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 make $EXTRA_ARGS
 sudo make install
 )
