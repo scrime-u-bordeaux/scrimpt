@@ -31,14 +31,21 @@ sudo apt -y install qtcreator qtbase5-dev qtdeclarative5-dev qtbase5-private-dev
 # fi
 
 if [ ! -d "qtshadertools" ]; then
-    git clone --recursive https://github.com/jcelerier/qtshadertools.git
-    (       
-        cd qtshadertools
-        #$SRC_DIR/Qt/gcc_64/bin/qmake && make $EXTRA_ARGS
-        qmake && make $EXTRA_ARGS
-        sudo make install
-    )   
+    git clone --recursive https://github.com/jcelerier/qtshadertools.git 
 fi
+
+(
+cd $BUILD_DIR
+
+if [ ! -d "qtshadertools" ]; then
+   mkdir qtshadertools
+fi
+
+cd qtshadertools
+#$SRC_DIR/Qt/gcc_64/bin/qmake && make $EXTRA_ARGS
+qmake $SRC_DIR/qtshadertools && make $EXTRA_ARGS
+sudo make install
+)
 
 #wget mirrors.ukfast.co.uk/sites/qt.io/online/qtsdkrepository/linux_x64/desktop/qt5_5142/#qt.qt5.5142.qtwebengine.gcc_64/5.14.2-0-202003291222qtwebengine-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-#X86_64.7z
 
